@@ -1,13 +1,10 @@
 package com.zd.flowable.model;
 
-import java.io.Serializable;
-
 /**
  * @author zhangda
  * @date: 2023/2/2
  **/
-public class DeploymentProperty implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class DeploymentProperty {
 
     private String modelId; //模型ID
     private String tenantId; //租户ID
