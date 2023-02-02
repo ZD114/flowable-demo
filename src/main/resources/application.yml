@@ -1,0 +1,45 @@
+spring:
+  application:
+    name: flowable-service
+  profiles:
+    active:
+    - dev
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      connection-timeout: 60000
+      validation-timeout: 3000
+      idle-timeout: 60000
+      login-timeout: 5
+      max-lifetime: 60000
+      data-source-properties:
+        cachePrepStmts: true
+        prepStmtCacheSize: 500
+        prepStmtCacheSqlLimit: 2048
+        useServerPrepStmts: true
+        rewriteBatchedStatements: true
+        cacheResultSetMetadata: true
+        cacheServerConfiguration: true
+        elideSetAutoCommits: true
+        maintainTimeStats: false
+
+flowable:
+  common:
+    app:
+      idm-admin:
+        password: test
+        user: test
+      idm-url: http://localhost:8080/flowable-demo
+
+logging:
+  level:
+    root: INFO
+  file: 
+    name: logs/${spring.application.name}.log
+    
+server:
+  port: 6104
