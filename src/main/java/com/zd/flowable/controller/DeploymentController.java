@@ -61,7 +61,7 @@ public class DeploymentController {
                 .deploymentId(deployment.getId())
                 .singleResult();
 
-        log.info("Found process definition : " + deployment.getId());
+        log.info("Found process definition: {}", deployment.getId());
 
         return Result.ok().data("processDefinition", processDefinition.getId());    //实例ID
     }
