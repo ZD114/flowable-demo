@@ -28,12 +28,14 @@ import java.util.Map;
 public class RuntimeController {
 
     private static final Logger log = LoggerFactory.getLogger(RuntimeController.class);
+    private static final String EXCEPTION_MSG = "processInstanceKey are required parameters";
 
     @Autowired
     private RuntimeService runtimeService;
 
     /**
      * 启动流程
+     *
      * @param runtimeProperty
      * @return
      */
@@ -52,11 +54,11 @@ public class RuntimeController {
 
         String userName = runtimeProperty.getUserName();
 
-        if(StringUtils.isBlank(userName)){
+        if (StringUtils.isBlank(userName)) {
             userName = "";
         }
 
-        if(mapVariables ==null && StringUtils.isBlank(businessKey)){//只用id启动
+        if (mapVariables == null && StringUtils.isBlank(businessKey)) {//只用id启动
             Authentication.setAuthenticatedUserId(userName);//设置流程发起人
             processInstance = runtimeService.startProcessInstanceById(processDefinitionId);
             Authentication.setAuthenticatedUserId(null);//这个方法最终使用一个ThreadLocal类型的变量进行存储，也就是与当前的线程绑定，所以流程实例启动完毕之后，需要设置为null，防止多线程的时候出问题。
@@ -81,5 +83,25 @@ public class RuntimeController {
         }
 
         return Result.ok().data("过程实例编号: ", processInstance.getId());
+    }
+
+    /**
+     * 表单启动流程
+     *
+     * @param runtimeProperty
+     * @return
+     */
+    @PostMapping("/form")
+    public Result formStart(@RequestBody RuntimeProperty runtimeProperty) {
+        String processDefinitionId = runtimeProperty.getProcessDefinitionId();//过程实例ID参数
+        Map<String, Object> mapVariables = runtimeProperty.getMapVariables();//map参数
+
+        if (StringUtils.isBlank(processDefinitionId)) { // 若定义ID不存在
+            throw new BadRequestException(EXCEPTION_MSG);
+        }
+
+        ProcessInstance processInstance = runtimeService.startProcessInstanceWithForm(processDefinitionId, "", mapVariables, "");
+
+        return Result.ok().data("processInstanceId", processInstance.getId());
     }
 }

@@ -130,12 +130,13 @@ public class DeploymentController {
     }
 
     /**
-     * 表单部署流程
+     * 外置表单部署流程
+     *
      * @param deploymentProperty
      * @return
      */
     @PostMapping("/form")
-    public Result deploymentForm(DeploymentProperty deploymentProperty) {
+    public Result deploymentForm(@RequestBody DeploymentProperty deploymentProperty) {
         FormDeployment deployment = formRepositoryService.createDeployment()
                 .addClasspathResource(deploymentProperty.getFormName())
                 .name(deploymentProperty.getName())
