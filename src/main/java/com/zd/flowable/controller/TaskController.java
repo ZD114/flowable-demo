@@ -16,6 +16,7 @@ import java.util.Map;
 
 /**
  * 任务管理
+ *
  * @author zhangda
  * @date: 2023/2/2
  **/
@@ -32,11 +33,12 @@ public class TaskController {
 
     /**
      * 根据任务编号完成任务
+     *
      * @param taskProperty
      * @return
      */
     @PostMapping("")
-    public Result completeTask(@RequestBody TaskProperty taskProperty){
+    public Result completeTask(@RequestBody TaskProperty taskProperty) {
         String taskId = taskProperty.getTaskId();//任务编号
 
         String assignee = taskProperty.getUserId();// 用户
@@ -71,5 +73,21 @@ public class TaskController {
         return taskService.createTaskQuery()
                 .taskAssignee(userName)  // 指定办理人
                 .list();
+    }
+
+    /**
+     * 完成表单
+     * @param taskProperty
+     * @return
+     */
+    @PostMapping("/form")
+    public Result completeForm(@RequestBody TaskProperty taskProperty) {
+        String taskId = taskProperty.getTaskId();
+        String formDefinitionId = taskProperty.getFormDefinitionId();
+        Map<String, Object> mapVariables = taskProperty.getMapVariables();//参数对象
+
+        taskService.completeTaskWithForm(taskId, formDefinitionId, "", mapVariables);
+
+        return Result.ok().data(mapVariables);
     }
 }
