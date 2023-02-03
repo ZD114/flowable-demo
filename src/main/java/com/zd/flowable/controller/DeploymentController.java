@@ -134,6 +134,7 @@ public class DeploymentController {
      * @param deploymentProperty
      * @return
      */
+    @PostMapping("/form")
     public Result deploymentForm(DeploymentProperty deploymentProperty) {
         FormDeployment deployment = formRepositoryService.createDeployment()
                 .addClasspathResource(deploymentProperty.getFormName())
