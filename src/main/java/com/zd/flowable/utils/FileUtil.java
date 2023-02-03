@@ -16,30 +16,32 @@ public class FileUtil {
 
     private static final Logger logger = LoggerFactory.getLogger(FileUtil.class);
 
-    private FileUtil(){}
+    private FileUtil() {
+    }
 
     /**
      * 读取Projectpath某文件里的全部内容
-     * @param fileP  文件路径
+     *
+     * @param fileP 文件路径
      */
     public static String readFileAllContent(String fileP) throws IOException {
         StringBuilder fileContent = new StringBuilder();
         String encoding = "utf-8";
-        File file = new File(PathUtil.getProjectpath() + fileP);//文件路径(先在本地)
-        if (file.isFile() && file.exists()) { 		// 判断文件是否存在
-            try(InputStreamReader read = new InputStreamReader(
+        File file = new File(PathUtil.getProjectPath() + fileP);//文件路径(先在本地)
+        if (file.isFile() && file.exists()) {        // 判断文件是否存在
+            try (InputStreamReader read = new InputStreamReader(
                     new FileInputStream(file), encoding);
-                BufferedReader bufferedReader = new BufferedReader(read)){
+                 BufferedReader bufferedReader = new BufferedReader(read)) {
                 //异常处理块
                 String lineTxt = null;
                 while ((lineTxt = bufferedReader.readLine()) != null) {
                     fileContent.append(lineTxt);
                     fileContent.append("\n");
                 }
-            }catch (NullPointerException e){
-                logger.error("读取文件内容出错",e);
+            } catch (NullPointerException e) {
+                logger.error("读取文件内容出错", e);
             }
-        }else{
+        } else {
             logger.info("找不到指定的文件,查看此路径是否正确:{}", fileP);
         }
         return fileContent.toString();
@@ -57,8 +59,8 @@ public class FileUtil {
         if (!f.exists()) {
             throw new FileNotFoundException(filePath);
         }
-        try(FileInputStream fs = new FileInputStream(f);
-            FileChannel channel = fs.getChannel()) {
+        try (FileInputStream fs = new FileInputStream(f);
+             FileChannel channel = fs.getChannel()) {
             ByteBuffer byteBuffer = ByteBuffer.allocate((int) channel.size());
             while ((channel.read(byteBuffer)) > 0) {
                 // do nothing

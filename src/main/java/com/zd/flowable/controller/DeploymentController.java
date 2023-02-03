@@ -2,6 +2,7 @@ package com.zd.flowable.controller;
 
 import com.zd.flowable.model.DeploymentProperty;
 import com.zd.flowable.model.Result;
+import com.zd.flowable.utils.Constant;
 import org.apache.commons.lang3.StringUtils;
 import org.flowable.bpmn.model.BpmnModel;
 import org.flowable.engine.RepositoryService;
@@ -95,7 +96,7 @@ public class DeploymentController {
 
         Deployment deployment = deploymentBuilder.deploy();    //完成部署
 
-        return Result.ok().data("deploymentId", deployment.getId());  //部署ID
+        return Result.ok().data(Constant.DEPLOYMENT_ID, deployment.getId());  //部署ID
     }
 
     /**
@@ -126,7 +127,7 @@ public class DeploymentController {
         ipInputStream.close();
         inputStream.close();
 
-        return Result.ok().data("deploymentId", deployment.getId());   //部署ID
+        return Result.ok().data(Constant.DEPLOYMENT_ID, deployment.getId());   //部署ID
     }
 
     /**
@@ -142,6 +143,6 @@ public class DeploymentController {
                 .name(deploymentProperty.getName())
                 .parentDeploymentId(deploymentProperty.getDeploymentId())
                 .deploy();
-        return Result.ok().data("deploymentId", deployment.getId());
+        return Result.ok().data(Constant.DEPLOYMENT_ID, deployment.getId());
     }
 }

@@ -7,15 +7,15 @@ package com.zd.flowable.model;
 public enum ResultCodeEnum {
     SUCCESS(true, 200, "成功"),
 
-    NULL_ARGUMENT_ERROR(false,400,"前端传来的参数为空"),
+    NULL_ARGUMENT_ERROR(false, 400, "前端传来的参数为空"),
 
-    DATA_SEARCH_ERROR(false,400,"前端系统参数查找出现错误"),
+    DATA_SEARCH_ERROR(false, 400, "前端系统参数查找出现错误"),
 
-    ILLEGAL_STATUS_ERROR(false,500,"当前需求单状态出现错误"),
+    ILLEGAL_STATUS_ERROR(false, 500, "当前需求单状态出现错误"),
 
-    DATA_PROCESS_ERROR(false,500,"后台数据处理出现错误"),
+    DATA_PROCESS_ERROR(false, 500, "后台数据处理出现错误"),
 
-    ERROR(false,500,"后台其他异常"),
+    ERROR(false, 500, "后台其他异常"),
 
     UNKNOWN_REASON(false, 20001, "未知错误"),
 

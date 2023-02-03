@@ -19,6 +19,7 @@ public class Base64Utils {
 
     /**
      * 将输入流转为base64字符串
+     *
      * @param in
      * @return
      */
@@ -26,11 +27,10 @@ public class Base64Utils {
         byte[] data = null;
         try {
             data = new byte[in.available()];
-            int count = 0;
-            while ((count = in.read(data)) > 0) {
+
+            while (in.read(data) > 0) {
                 break;
             }
-            //in.read(data);
             in.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -40,19 +40,19 @@ public class Base64Utils {
 
     /**
      * 根据路径转换base64
+     *
      * @param imgSrcPath
      * @return
      */
     public static String getImageStr(String imgSrcPath) throws IOException {
         byte[] data = null;
-        try(InputStream in = new FileInputStream(imgSrcPath)){
+        try (InputStream in = new FileInputStream(imgSrcPath)) {
             data = new byte[in.available()];
-            int count = 0;
-            while ((count = in.read(data)) > 0) {
+
+            while (in.read(data) > 0) {
                 break;
             }
-            //in.read(data);
-        }catch (IOException | NullPointerException e) {
+        } catch (IOException | NullPointerException e) {
             e.printStackTrace();
         }
         // 对字节数组Base64编码

@@ -7,7 +7,7 @@ import java.util.Map;
  * @date: 2023/2/2
  **/
 public class RuntimeProperty {
-    private Map<String,Object> mapVariables; //map参数名
+    private Map<String, Object> mapVariables; //map参数名
     private String processDefinitionId; //流程定义实例Id
     private String businessKey; //业务key
     private String userName; //用户名

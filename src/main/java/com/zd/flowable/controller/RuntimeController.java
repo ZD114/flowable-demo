@@ -133,7 +133,7 @@ public class RuntimeController {
 
         createXmlAndPng(deploymentId);
 
-        return Result.ok().data("code",FileUtil.readFileAllContent(URLDecoder.decode(fileName, "UTF-8")));
+        return Result.ok().data("code", FileUtil.readFileAllContent(URLDecoder.decode(fileName, "UTF-8")));
     }
 
     /**
@@ -154,7 +154,7 @@ public class RuntimeController {
             createXmlAndPng(deploymentId);//生成XML和PNG
 
             String newFileName = URLDecoder.decode(fileName, "UTF-8");
-            String imgSrcPath = PathUtil.getProjectpath() + newFileName;
+            String imgSrcPath = PathUtil.getProjectPath() + newFileName;
 
             map.put("imgSrc", "data:image/jpeg;base64," + Base64Utils.getImageStr(imgSrcPath)); //解决图片src中文乱码，把图片转成base64格式显示(这样就不用修改tomcat的配置了)
 
@@ -172,12 +172,12 @@ public class RuntimeController {
      * @throws IOException
      */
     protected void createXmlAndPng(String deploymentId) throws IOException {
-        DelFileUtil.delFolder(PathUtil.getProjectpath());            //生成先清空之前生成的文件
+        DelFileUtil.delFolder(PathUtil.getProjectPath());            //生成先清空之前生成的文件
         List<String> names = repositoryService.getDeploymentResourceNames(deploymentId);
         for (String name : names) {
             if (name.indexOf("zip") != -1) continue;
             InputStream in = repositoryService.getResourceAsStream(deploymentId, name);
-            FileUpload.copyFile(in, PathUtil.getProjectpath(), name);            //把文件上传到文件目录里面
+            FileUpload.copyFile(in, PathUtil.getProjectPath(), name);            //把文件上传到文件目录里面
             in.close();
         }
     }

@@ -1,5 +1,6 @@
 package com.zd.flowable.utils;
 
+import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -13,25 +14,46 @@ import java.io.File;
  **/
 public class PathUtil {
 
-    private PathUtil(){}
-
-    /**获取Projectpath
-     * @return
-     */
-    public static String getProjectpath(){
-        if(RequestContextHolder.getRequestAttributes() == null){
-            throw new NullPointerException();
-        }
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        return request.getServletContext().getRealPath("/").replace("%20", " ").replace("file:/", "").trim();
+    private PathUtil() {
     }
 
-    /**获取Classpath
+    /**
+     * 获取Projectpath
+     *
      * @return
      */
-    public static String getClasspath(){
-        String path =  (String.valueOf(Thread.currentThread().getContextClassLoader().getResource(""))).replace("file:/", "").replace("%20", " ").trim();
-        if(path.indexOf(":") != 1){
+    public static String getProjectPath() {
+        if (RequestContextHolder.getRequestAttributes() == null) {
+            throw new NullPointerException();
+        }
+
+        HttpServletRequest request = null;
+        String result = "";
+        try {
+            RequestAttributes ra = RequestContextHolder.getRequestAttributes();
+
+            if (ra != null) {
+                request = ((ServletRequestAttributes) ra).getRequest();
+            }
+
+            if (request != null) {
+                result = request.getServletContext().getRealPath("/").replace("%20", " ").replace("file:/", "").trim();
+            }
+
+            return result;
+        } catch (NullPointerException e) {
+            return result;
+        }
+    }
+
+    /**
+     * 获取Classpath
+     *
+     * @return
+     */
+    public static String getClasspath() {
+        String path = (String.valueOf(Thread.currentThread().getContextClassLoader().getResource(""))).replace("file:/", "").replace("%20", " ").trim();
+        if (path.indexOf(":") != 1) {
             path = File.separator + path;
 
         }
