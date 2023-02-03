@@ -8,6 +8,8 @@ import org.flowable.engine.RepositoryService;
 import org.flowable.engine.repository.Deployment;
 import org.flowable.engine.repository.DeploymentBuilder;
 import org.flowable.engine.repository.ProcessDefinition;
+import org.flowable.form.api.FormDeployment;
+import org.flowable.form.api.FormRepositoryService;
 import org.flowable.ui.modeler.domain.Model;
 import org.flowable.ui.modeler.serviceapi.ModelService;
 import org.slf4j.Logger;
@@ -40,6 +42,9 @@ public class DeploymentController {
 
     @Autowired
     private RepositoryService repositoryService; //管理流程定义  与流程定义和部署对象相关的Service
+
+    @Autowired
+    private FormRepositoryService formRepositoryService; //表单服务
 
     /**
      * 根据模型编号部署流程
@@ -90,7 +95,7 @@ public class DeploymentController {
 
         Deployment deployment = deploymentBuilder.deploy();    //完成部署
 
-        return Result.ok().data("deploymentId: ", deployment.getId());  //部署ID
+        return Result.ok().data("deploymentId", deployment.getId());  //部署ID
     }
 
     /**
@@ -121,6 +126,20 @@ public class DeploymentController {
         ipInputStream.close();
         inputStream.close();
 
-        return Result.ok().data("deploymentId: ", deployment.getId());   //部署ID
+        return Result.ok().data("deploymentId", deployment.getId());   //部署ID
+    }
+
+    /**
+     * 表单部署流程
+     * @param deploymentProperty
+     * @return
+     */
+    public Result deploymentForm(DeploymentProperty deploymentProperty) {
+        FormDeployment deployment = formRepositoryService.createDeployment()
+                .addClasspathResource(deploymentProperty.getFormName())
+                .name(deploymentProperty.getName())
+                .parentDeploymentId(deploymentProperty.getDeploymentId())
+                .deploy();
+        return Result.ok().data("deploymentId", deployment.getId());
     }
 }
