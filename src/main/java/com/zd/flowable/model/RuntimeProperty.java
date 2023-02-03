@@ -11,6 +11,8 @@ public class RuntimeProperty {
     private String processDefinitionId; //流程定义实例Id
     private String businessKey; //业务key
     private String userName; //用户名
+    private String deploymentId;//部署编号
+    private String fileName;//文件名
 
     public Map<String, Object> getMapVariables() {
         return mapVariables;
@@ -42,5 +44,21 @@ public class RuntimeProperty {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public String getDeploymentId() {
+        return deploymentId;
+    }
+
+    public void setDeploymentId(String deploymentId) {
+        this.deploymentId = deploymentId;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 }

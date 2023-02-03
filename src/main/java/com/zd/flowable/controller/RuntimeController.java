@@ -1,9 +1,13 @@
 package com.zd.flowable.controller;
 
 import com.zd.flowable.model.Result;
+import com.zd.flowable.model.ResultCodeEnum;
 import com.zd.flowable.model.RuntimeProperty;
+import com.zd.flowable.utils.*;
 import org.apache.commons.lang3.StringUtils;
 import org.flowable.common.engine.impl.identity.Authentication;
+import org.flowable.engine.FormService;
+import org.flowable.engine.RepositoryService;
 import org.flowable.engine.RuntimeService;
 import org.flowable.engine.runtime.ProcessInstance;
 import org.flowable.ui.common.service.exception.BadRequestException;
@@ -15,6 +19,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URLDecoder;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -32,6 +41,10 @@ public class RuntimeController {
 
     @Autowired
     private RuntimeService runtimeService;
+    @Autowired
+    private FormService formService;
+    @Autowired
+    private RepositoryService repositoryService; //管理流程定义  与流程定义和部署对象相关的Service
 
     /**
      * 启动流程
@@ -95,13 +108,77 @@ public class RuntimeController {
     public Result formStart(@RequestBody RuntimeProperty runtimeProperty) {
         String processDefinitionId = runtimeProperty.getProcessDefinitionId();//过程实例ID参数
         Map<String, Object> mapVariables = runtimeProperty.getMapVariables();//map参数
+        String businessKey = runtimeProperty.getBusinessKey();//业务key
 
         if (StringUtils.isBlank(processDefinitionId)) { // 若定义ID不存在
             throw new BadRequestException(EXCEPTION_MSG);
         }
 
-        ProcessInstance processInstance = runtimeService.startProcessInstanceWithForm(processDefinitionId, "", mapVariables, "");
+        ProcessInstance processInstance = runtimeService.startProcessInstanceWithForm(processDefinitionId, "", mapVariables, businessKey);
 
         return Result.ok().data("processInstanceId", processInstance.getId());
+    }
+
+    /**
+     * 预览XML
+     *
+     * @param runtimeProperty
+     * @return
+     * @throws IOException
+     */
+    @PostMapping("/xml")
+    public Result getViewXml(@RequestBody RuntimeProperty runtimeProperty) throws IOException {
+        String deploymentId = runtimeProperty.getDeploymentId();
+        String fileName = runtimeProperty.getFileName();
+
+        createXmlAndPng(deploymentId);
+
+        return Result.ok().data("code",FileUtil.readFileAllContent(URLDecoder.decode(fileName, "UTF-8")));
+    }
+
+    /**
+     * 获取预览PNG
+     *
+     * @param runtimeProperty
+     * @return
+     * @throws Exception
+     */
+    @PostMapping(value = "/png")
+    public Result getViewPng(@RequestBody RuntimeProperty runtimeProperty) {
+        String deploymentId = runtimeProperty.getDeploymentId();
+        String fileName = runtimeProperty.getFileName();
+
+        Map<String, Object> map = new HashMap<>();
+
+        try {
+            createXmlAndPng(deploymentId);//生成XML和PNG
+
+            String newFileName = URLDecoder.decode(fileName, "UTF-8");
+            String imgSrcPath = PathUtil.getProjectpath() + newFileName;
+
+            map.put("imgSrc", "data:image/jpeg;base64," + Base64Utils.getImageStr(imgSrcPath)); //解决图片src中文乱码，把图片转成base64格式显示(这样就不用修改tomcat的配置了)
+
+        } catch (IOException e) {
+            return Result.error(ResultCodeEnum.ERROR);
+        }
+
+        return Result.ok().data(map);
+    }
+
+    /**
+     * 根据流程定义的部署ID生成XML和PNG
+     *
+     * @param deploymentId 部署ID
+     * @throws IOException
+     */
+    protected void createXmlAndPng(String deploymentId) throws IOException {
+        DelFileUtil.delFolder(PathUtil.getProjectpath());            //生成先清空之前生成的文件
+        List<String> names = repositoryService.getDeploymentResourceNames(deploymentId);
+        for (String name : names) {
+            if (name.indexOf("zip") != -1) continue;
+            InputStream in = repositoryService.getResourceAsStream(deploymentId, name);
+            FileUpload.copyFile(in, PathUtil.getProjectpath(), name);            //把文件上传到文件目录里面
+            in.close();
+        }
     }
 }
