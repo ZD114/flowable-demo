@@ -4,6 +4,9 @@ import com.zd.flowable.model.Result;
 import com.zd.flowable.model.TaskProperty;
 import org.apache.commons.lang3.StringUtils;
 import org.flowable.engine.TaskService;
+import org.flowable.form.api.FormInfo;
+import org.flowable.form.model.FormField;
+import org.flowable.form.model.SimpleFormModel;
 import org.flowable.task.api.Task;
 import org.flowable.ui.common.service.exception.BadRequestException;
 import org.slf4j.Logger;
@@ -89,5 +92,18 @@ public class TaskController {
         taskService.completeTaskWithForm(taskId, formDefinitionId, "", mapVariables);
 
         return Result.ok().data(mapVariables);
+    }
+
+    /**
+     * 获取任务表单数据
+     * @param taskId 任务编号
+     * @return
+     */
+    @GetMapping("/form/{taskId}")
+    public List<FormField> taskFormDataGet(@PathVariable String taskId) {
+        FormInfo taskFormModel = taskService.getTaskFormModel(taskId);
+        SimpleFormModel formModel = (SimpleFormModel) taskFormModel.getFormModel();
+
+        return formModel.getFields();
     }
 }
