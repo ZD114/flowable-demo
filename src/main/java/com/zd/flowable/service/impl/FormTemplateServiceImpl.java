@@ -1,17 +1,17 @@
 package com.zd.flowable.service.impl;
 
-import com.zd.flowable.entity.FormTemplate;
+import com.zd.flowable.entity.FormTemplates;
 import com.zd.flowable.model.FormTemplateProperty;
 import com.zd.flowable.model.Result;
 import com.zd.flowable.service.FormTemplateService;
 import com.zd.flowable.utils.Constant;
 import com.zd.flowable.utils.JdbcUtility;
-import jakarta.annotation.Resource;
 import org.springframework.beans.BeanUtils;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.time.LocalDateTime;
 
 /**
@@ -27,7 +27,7 @@ public class FormTemplateServiceImpl implements FormTemplateService {
     @Override
     public Result addTemplate(FormTemplateProperty templateProperty) {
         var keyHolder = new GeneratedKeyHolder();
-        var entity = new FormTemplate();
+        var entity = new FormTemplates();
         var now = LocalDateTime.now();
 
         BeanUtils.copyProperties(templateProperty, entity, "formTemplatesId");

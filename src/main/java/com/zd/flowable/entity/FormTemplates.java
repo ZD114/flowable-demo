@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
  * @author zhangda
  * @date: 2023/2/6
  **/
-public class FormTemplate {
+public class FormTemplates {
     /**
      * 模板编号
      */
