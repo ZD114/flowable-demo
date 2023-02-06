@@ -35,7 +35,7 @@ public enum ResultCodeEnum {
 
     ILLEGAL_CALLBACK_REQUEST_ERROR(false, 23002, "非法回调请求"),
 
-    FETCH_ACCESSTOKEN_FAILD(false, 23003, "获取accessToken失败"),
+    FETCH_ACCESS_TOKEN_FAILED(false, 23003, "获取accessToken失败"),
 
     FETCH_USERINFO_ERROR(false, 23004, "获取用户信息失败"),
 
@@ -53,7 +53,7 @@ public enum ResultCodeEnum {
 
     LOGIN_DISABLED_ERROR(false, 28002, "该用户已被禁用"),
 
-    REGISTER_MOBLE_ERROR(false, 28003, "手机号已被注册"),
+    REGISTER_PHONE_ERROR(false, 28003, "手机号已被注册"),
 
     LOGIN_AUTH(false, 28004, "需要登录"),
 

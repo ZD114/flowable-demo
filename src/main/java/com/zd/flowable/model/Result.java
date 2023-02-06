@@ -13,14 +13,17 @@ public class Result {
      * 是否成功
      */
     private Boolean success;
+
     /**
      * 返回的状态码
      */
     private Integer code;
+
     /**
      * 返回的消息
      */
     private String message;
+
     /**
      * 返回的数据
      */

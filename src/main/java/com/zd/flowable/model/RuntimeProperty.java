@@ -7,12 +7,35 @@ import java.util.Map;
  * @date: 2023/2/2
  **/
 public class RuntimeProperty {
-    private Map<String, Object> mapVariables; //map参数名
-    private String processDefinitionId; //流程定义实例Id
-    private String businessKey; //业务key
-    private String userName; //用户名
-    private String deploymentId;//部署编号
-    private String fileName;//文件名
+    /**
+     * map参数名
+     */
+    private Map<String, Object> mapVariables;
+
+    /**
+     * 流程定义实例Id
+     */
+    private String processDefinitionId;
+
+    /**
+     * 业务key
+     */
+    private String businessKey;
+
+    /**
+     * 用户名
+     */
+    private String userName;
+
+    /**
+     * 部署编号
+     */
+    private String deploymentId;
+
+    /**
+     * 文件名
+     */
+    private String fileName;
 
     public Map<String, Object> getMapVariables() {
         return mapVariables;

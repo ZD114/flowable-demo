@@ -7,11 +7,30 @@ import java.util.Map;
  * @date: 2023/2/2
  **/
 public class TaskProperty {
-    private Map<String, Object> mapVariables; //map参数名
-    private String taskId;//任务编号
-    private String processInstanceId;//执行编号
-    private String userId;//候选用户编号
-    private String formDefinitionId; //表单定义编号
+    /**
+     * map参数名
+     */
+    private Map<String, Object> mapVariables;
+
+    /**
+     * 务编号
+     */
+    private String taskId;
+
+    /**
+     * 执行编号
+     */
+    private String processInstanceId;
+
+    /**
+     * 候选用户编号
+     */
+    private String userId;
+
+    /**
+     * 表单定义编号
+     */
+    private String formDefinitionId;
 
     public String getUserId() {
         return userId;

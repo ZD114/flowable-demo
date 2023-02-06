@@ -6,15 +6,45 @@ package com.zd.flowable.model;
  **/
 public class DeploymentProperty {
 
-    private String modelId; //模型ID
-    private String tenantId; //租户ID
-    private String name; //部署名称
-    private String xmlPath; //xml路径
-    private String pngPath; //png路径
-    private String zipPath; //zip路径
+    /**
+     * 模型ID
+     */
+    private String modelId;
 
-    private String deploymentId; //部署编号
-    private String formName; //表单名称
+    /**
+     * 租户ID
+     */
+    private String tenantId;
+
+    /**
+     * 部署名称
+     */
+    private String name;
+
+    /**
+     * xml路径
+     */
+    private String xmlPath;
+
+    /**
+     * png路径
+     */
+    private String pngPath;
+
+    /**
+     * zip路径
+     */
+    private String zipPath;
+
+    /**
+     * 部署编号
+     */
+    private String deploymentId;
+
+    /**
+     * 表单名称
+     */
+    private String formName;
 
     public String getModelId() {
         return modelId;

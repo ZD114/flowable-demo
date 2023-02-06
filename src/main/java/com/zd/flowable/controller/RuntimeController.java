@@ -6,7 +6,6 @@ import com.zd.flowable.model.RuntimeProperty;
 import com.zd.flowable.utils.*;
 import org.apache.commons.lang3.StringUtils;
 import org.flowable.common.engine.impl.identity.Authentication;
-import org.flowable.engine.FormService;
 import org.flowable.engine.RepositoryService;
 import org.flowable.engine.RuntimeService;
 import org.flowable.engine.runtime.ProcessInstance;
@@ -41,8 +40,6 @@ public class RuntimeController {
 
     @Autowired
     private RuntimeService runtimeService;
-    @Autowired
-    private FormService formService;
     @Autowired
     private RepositoryService repositoryService; //管理流程定义  与流程定义和部署对象相关的Service
 
