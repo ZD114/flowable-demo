@@ -10,4 +10,6 @@ import com.zd.flowable.model.Result;
 public interface FormTemplateService {
 
     Result addTemplate(FormTemplateProperty templateProperty);
+
+    Result delTemplate(Long id);
 }

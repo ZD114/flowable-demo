@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 
 /**
  * @author zhangda
@@ -41,5 +42,17 @@ public class FormTemplateServiceImpl implements FormTemplateService {
         entity.setFormTemplatesId(keyHolder.getKey().longValue());
 
         return Result.ok().data(Constant.RESULT, entity);
+    }
+
+    @Override
+    public Result delTemplate(Long id) {
+
+        var param = new HashMap<String, Object>();
+
+        param.put("id", id);
+
+        nameJdbcTemplate.update("delete from form_templates where form_templates_id = :id", param);
+
+        return Result.ok();
     }
 }
