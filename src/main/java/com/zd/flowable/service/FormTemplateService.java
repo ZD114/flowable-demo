@@ -12,4 +12,6 @@ public interface FormTemplateService {
     Result addTemplate(FormTemplateProperty templateProperty);
 
     Result delTemplate(Long id);
+
+    Result updateTemplate(FormTemplateProperty templateProperty);
 }

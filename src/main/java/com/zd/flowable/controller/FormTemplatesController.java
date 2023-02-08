@@ -32,11 +32,23 @@ public class FormTemplatesController {
 
     /**
      * 删除表单模板
-     * @param id
+     *
+     * @param id 模板编号
      * @return
      */
     @DeleteMapping("/{id}")
     public Result delTemplate(@PathVariable Long id) {
         return formTemplateService.delTemplate(id);
+    }
+
+    /**
+     * 更新表单模板
+     *
+     * @param formTemplateProperty
+     * @return
+     */
+    @PutMapping("")
+    public Result updateTemplate(@RequestBody FormTemplateProperty formTemplateProperty) {
+        return formTemplateService.updateTemplate(formTemplateProperty);
     }
 }

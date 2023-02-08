@@ -55,4 +55,16 @@ public class FormTemplateServiceImpl implements FormTemplateService {
 
         return Result.ok();
     }
+
+    @Override
+    public Result updateTemplate(FormTemplateProperty templateProperty) {
+        var entity = new FormTemplates();
+
+        BeanUtils.copyProperties(templateProperty, entity);
+        entity.setUpdateTime(LocalDateTime.now());
+
+        nameJdbcTemplate.update(JdbcUtility.getUpdateSql(entity), JdbcUtility.getSqlParameterSource(entity));
+
+        return Result.ok().data(Constant.RESULT, entity);
+    }
 }
