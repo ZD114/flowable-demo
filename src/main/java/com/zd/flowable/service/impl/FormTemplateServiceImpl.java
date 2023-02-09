@@ -111,7 +111,7 @@ public class FormTemplateServiceImpl implements FormTemplateService {
 
         nameJdbcTemplate.batchUpdate("DELETE FROM form_templates WHERE form_templates_id = :formTemplatesId", batch);
 
-        return null;
+        return Result.ok();
     }
 
     @Override
