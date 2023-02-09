@@ -1,7 +1,11 @@
 package com.zd.flowable.service;
 
+import com.zd.flowable.entity.FormTemplates;
 import com.zd.flowable.model.FormTemplateProperty;
 import com.zd.flowable.model.Result;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author zhangda
@@ -14,4 +18,8 @@ public interface FormTemplateService {
     Result delTemplate(Long id);
 
     Result updateTemplate(FormTemplateProperty templateProperty);
+
+    Integer countTemplate(String sql, Map<String, Object> params);
+
+    List<FormTemplateProperty> searchPageList(String sql, Map<String, Object> params);
 }

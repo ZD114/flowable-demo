@@ -7,6 +7,7 @@ import com.zd.flowable.service.FormTemplateService;
 import com.zd.flowable.utils.Constant;
 import com.zd.flowable.utils.JdbcUtility;
 import org.springframework.beans.BeanUtils;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,8 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author zhangda
@@ -66,5 +69,15 @@ public class FormTemplateServiceImpl implements FormTemplateService {
         nameJdbcTemplate.update(JdbcUtility.getUpdateSql(entity), JdbcUtility.getSqlParameterSource(entity));
 
         return Result.ok().data(Constant.RESULT, entity);
+    }
+
+    @Override
+    public Integer countTemplate(String sql, Map<String, Object> params) {
+        return nameJdbcTemplate.queryForObject(sql, params, Integer.class);
+    }
+
+    @Override
+    public List<FormTemplateProperty> searchPageList(String sql, Map<String, Object> params) {
+        return nameJdbcTemplate.query(sql, params, new BeanPropertyRowMapper<>(FormTemplateProperty.class));
     }
 }

@@ -1,10 +1,15 @@
 package com.zd.flowable.controller;
 
+import com.zd.flowable.common.PageResult;
 import com.zd.flowable.model.FormTemplateProperty;
+import com.zd.flowable.model.FormTemplateSearchParam;
 import com.zd.flowable.model.Result;
 import com.zd.flowable.service.FormTemplateService;
+import net.logstash.logback.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
 
 /**
  * 自定义表单模板
@@ -50,5 +55,54 @@ public class FormTemplatesController {
     @PutMapping("")
     public Result updateTemplate(@RequestBody FormTemplateProperty formTemplateProperty) {
         return formTemplateService.updateTemplate(formTemplateProperty);
+    }
+
+    /**
+     * 表单模板列表
+     * @param searchParam
+     * @return
+     */
+    @PostMapping("/list")
+    public PageResult<FormTemplateProperty> searchPage(FormTemplateSearchParam searchParam) {
+
+        var pageResult = new PageResult<FormTemplateProperty>();
+
+        var params = new HashMap<String, Object>();
+
+        var sql = new StringBuilder("SELECT * FROM form_templates WHERE 1=1 ");
+
+        if (!StringUtils.isEmpty(searchParam.getTitle())) {
+            sql.append(" AND title like :title");
+            params.put("title", "%" + searchParam.getTitle() + "%");
+
+        }
+
+        if (!StringUtils.isEmpty(searchParam.getType())) {
+            sql.append(" AND type := type");
+            params.put("type", searchParam.getType());
+
+        }
+
+        var sqlCount = new StringBuilder("SELECT COUNT(1) FROM( " + sql + " GROUP BY form_templates_id ) eq");
+
+        var totalCount = formTemplateService.countTemplate(sqlCount.toString(), params);
+
+        if (totalCount > 0) {
+            var start = searchParam.getPageIndex() == 0 ? 0
+                    : (searchParam.getPageIndex() - 1) * searchParam.getPageSize();
+
+            sql.append(" GROUP BY form_templates_id ORDER BY form_templates_id DESC LIMIT :start,:pageSize ");
+            params.put("start", start);
+            params.put("pageSize", searchParam.getPageSize());
+
+            var resources = formTemplateService.searchPageList(sql.toString(), params);
+
+            pageResult.setData(resources);
+        }
+
+        pageResult.setTotal(totalCount);
+        pageResult.setTotalPages((long) Math.ceil(totalCount / (double) searchParam.getPageSize()));
+
+        return pageResult;
     }
 }
