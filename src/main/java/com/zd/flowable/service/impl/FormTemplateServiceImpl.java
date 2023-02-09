@@ -1,5 +1,6 @@
 package com.zd.flowable.service.impl;
 
+import com.zd.flowable.common.RestResult;
 import com.zd.flowable.entity.FormTemplates;
 import com.zd.flowable.model.FormTemplateProperty;
 import com.zd.flowable.model.Result;
@@ -79,5 +80,16 @@ public class FormTemplateServiceImpl implements FormTemplateService {
     @Override
     public List<FormTemplateProperty> searchPageList(String sql, Map<String, Object> params) {
         return nameJdbcTemplate.query(sql, params, new BeanPropertyRowMapper<>(FormTemplateProperty.class));
+    }
+
+    @Override
+    public RestResult<FormTemplates> findTemplateById(Long id) {
+        var param = new HashMap<String, Object>();
+
+        param.put("id", id);
+
+        var formTemplate = nameJdbcTemplate.query("select * from form_templates where form_templates_id = :id", param, new BeanPropertyRowMapper<>(FormTemplates.class));
+
+        return new RestResult<>(true, "200", "", formTemplate.get(0));
     }
 }

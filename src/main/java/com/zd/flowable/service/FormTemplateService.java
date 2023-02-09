@@ -1,5 +1,6 @@
 package com.zd.flowable.service;
 
+import com.zd.flowable.common.RestResult;
 import com.zd.flowable.entity.FormTemplates;
 import com.zd.flowable.model.FormTemplateProperty;
 import com.zd.flowable.model.Result;
@@ -22,4 +23,6 @@ public interface FormTemplateService {
     Integer countTemplate(String sql, Map<String, Object> params);
 
     List<FormTemplateProperty> searchPageList(String sql, Map<String, Object> params);
+
+    RestResult<FormTemplates> findTemplateById(Long id);
 }

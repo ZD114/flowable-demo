@@ -1,6 +1,8 @@
 package com.zd.flowable.controller;
 
 import com.zd.flowable.common.PageResult;
+import com.zd.flowable.common.RestResult;
+import com.zd.flowable.entity.FormTemplates;
 import com.zd.flowable.model.FormTemplateProperty;
 import com.zd.flowable.model.FormTemplateSearchParam;
 import com.zd.flowable.model.Result;
@@ -59,6 +61,7 @@ public class FormTemplatesController {
 
     /**
      * 表单模板列表
+     *
      * @param searchParam
      * @return
      */
@@ -104,5 +107,16 @@ public class FormTemplatesController {
         pageResult.setTotalPages((long) Math.ceil(totalCount / (double) searchParam.getPageSize()));
 
         return pageResult;
+    }
+
+    /**
+     * 根据编号查询模板信息
+     *
+     * @param id 模板编号
+     * @return
+     */
+    @GetMapping("/{id}")
+    public RestResult<FormTemplates> findTemplateById(@PathVariable Long id) {
+        return formTemplateService.findTemplateById(id);
     }
 }
