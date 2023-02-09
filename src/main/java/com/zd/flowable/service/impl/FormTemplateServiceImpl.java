@@ -113,4 +113,9 @@ public class FormTemplateServiceImpl implements FormTemplateService {
 
         return null;
     }
+
+    @Override
+    public List<FormTemplates> queryAll() {
+        return nameJdbcTemplate.query("select * from form_templates", new BeanPropertyRowMapper<>(FormTemplates.class));
+    }
 }

@@ -27,4 +27,6 @@ public interface FormTemplateService {
     RestResult<FormTemplates> findTemplateById(Long id);
 
     Result delTemplateBatch(List<Long> ids);
+
+    List<FormTemplates> queryAll();
 }

@@ -1,5 +1,7 @@
 package com.zd.flowable.entity;
 
+import com.alibaba.excel.annotation.ExcelProperty;
+
 import java.time.LocalDateTime;
 
 /**
@@ -12,31 +14,37 @@ public class FormTemplates {
     /**
      * 模板编号
      */
+    @ExcelProperty(value = "模板编号", index = 0)
     private Long formTemplatesId;
 
     /**
      * 模板名称
      */
+    @ExcelProperty(value = "模板名称", index = 1)
     private String title;
 
     /**
      * 模板内容
      */
+    @ExcelProperty(value = "模板内容", index = 2)
     private String htmlContent;
 
     /**
      * 模板类型
      */
+    @ExcelProperty(value = "模板类型", index = 3)
     private String type;
 
     /**
      * 创建时间
      */
+    @ExcelProperty(value = "创建时间", index = 4)
     private LocalDateTime createTime;
 
     /**
      * 更新时间
      */
+    @ExcelProperty(value = "更新时间", index = 5)
     private LocalDateTime updateTime;
 
     public Long getFormTemplatesId() {

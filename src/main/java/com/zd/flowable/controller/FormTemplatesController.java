@@ -1,5 +1,6 @@
 package com.zd.flowable.controller;
 
+import com.alibaba.excel.EasyExcel;
 import com.zd.flowable.common.PageResult;
 import com.zd.flowable.common.RestResult;
 import com.zd.flowable.entity.FormTemplates;
@@ -7,12 +8,20 @@ import com.zd.flowable.model.FormTemplateProperty;
 import com.zd.flowable.model.FormTemplateSearchParam;
 import com.zd.flowable.model.Result;
 import com.zd.flowable.service.FormTemplateService;
+import com.zd.flowable.utils.EasyExcelUtil;
 import net.logstash.logback.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 自定义表单模板
@@ -130,5 +139,14 @@ public class FormTemplatesController {
     @PostMapping("/delBatch")
     public Result delTemplateBatch(@RequestBody List<Long> ids) {
         return formTemplateService.delTemplateBatch(ids);
+    }
+
+    /**
+     * 导出excel
+     * @return
+     */
+    @GetMapping("/download")
+    public void downloadExcel(@RequestParam("fileName") String fileName, HttpServletResponse response) {
+        EasyExcelUtil.downloadExcel(response, fileName, formTemplateService.queryAll());
     }
 }
