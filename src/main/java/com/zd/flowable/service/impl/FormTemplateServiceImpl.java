@@ -7,14 +7,18 @@ import com.zd.flowable.model.Result;
 import com.zd.flowable.service.FormTemplateService;
 import com.zd.flowable.utils.Constant;
 import com.zd.flowable.utils.JdbcUtility;
+import liquibase.pro.packaged.F;
 import org.springframework.beans.BeanUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSourceUtils;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -91,5 +95,22 @@ public class FormTemplateServiceImpl implements FormTemplateService {
         var formTemplate = nameJdbcTemplate.query("select * from form_templates where form_templates_id = :id", param, new BeanPropertyRowMapper<>(FormTemplates.class));
 
         return new RestResult<>(true, "200", "", formTemplate.get(0));
+    }
+
+    @Override
+    public Result delTemplateBatch(List<Long> ids) {
+        List<FormTemplates> list = new ArrayList<>();
+
+        for (int i = 0; i < ids.size(); i++) {
+            FormTemplates ft = new FormTemplates();
+            ft.setFormTemplatesId(ids.get(i));
+            list.add(ft);
+        }
+
+        SqlParameterSource[] batch = SqlParameterSourceUtils.createBatch(ids.toArray());
+
+        nameJdbcTemplate.batchUpdate("DELETE FROM form_templates WHERE form_templates_id = :formTemplatesId", batch);
+
+        return null;
     }
 }

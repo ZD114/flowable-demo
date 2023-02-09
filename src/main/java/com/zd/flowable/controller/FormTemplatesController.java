@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * 自定义表单模板
@@ -118,5 +119,16 @@ public class FormTemplatesController {
     @GetMapping("/{id}")
     public RestResult<FormTemplates> findTemplateById(@PathVariable Long id) {
         return formTemplateService.findTemplateById(id);
+    }
+
+    /**
+     * 批量删除模板
+     *
+     * @param ids 模板编号列表
+     * @return
+     */
+    @PostMapping("/delBatch")
+    public Result delTemplateBatch(@RequestBody List<Long> ids) {
+        return formTemplateService.delTemplateBatch(ids);
     }
 }

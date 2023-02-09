@@ -25,4 +25,6 @@ public interface FormTemplateService {
     List<FormTemplateProperty> searchPageList(String sql, Map<String, Object> params);
 
     RestResult<FormTemplates> findTemplateById(Long id);
+
+    Result delTemplateBatch(List<Long> ids);
 }
