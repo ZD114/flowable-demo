@@ -69,9 +69,9 @@ public class FormTemplatesController {
      * @return
      */
     @PostMapping("/list")
-    public PageResult<FormTemplatesProperty> searchPage(FormTemplatesSearchParam searchParam) {
+    public PageResult<FormTemplates> searchPage(FormTemplatesSearchParam searchParam) {
 
-        var pageResult = new PageResult<FormTemplatesProperty>();
+        var pageResult = new PageResult<FormTemplates>();
 
         var params = new HashMap<String, Object>();
 

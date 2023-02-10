@@ -7,8 +7,6 @@ import com.zd.flowable.model.Result;
 import com.zd.flowable.service.FormTemplatesService;
 import com.zd.flowable.utils.Constant;
 import com.zd.flowable.utils.JdbcUtility;
-import liquibase.pro.packaged.P;
-import org.apache.ibatis.jdbc.Null;
 import org.springframework.beans.BeanUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -83,8 +81,8 @@ public class FormTemplatesServiceImpl implements FormTemplatesService {
     }
 
     @Override
-    public List<FormTemplatesProperty> searchPageList(String sql, Map<String, Object> params) {
-        return nameJdbcTemplate.query(sql, params, new BeanPropertyRowMapper<>(FormTemplatesProperty.class));
+    public List<FormTemplates> searchPageList(String sql, Map<String, Object> params) {
+        return nameJdbcTemplate.query(sql, params, new BeanPropertyRowMapper<>(FormTemplates.class));
     }
 
     @Override

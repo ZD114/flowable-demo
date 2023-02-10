@@ -22,7 +22,7 @@ public interface FormTemplatesService {
 
     Integer countTemplate(String sql, Map<String, Object> params);
 
-    List<FormTemplatesProperty> searchPageList(String sql, Map<String, Object> params);
+    List<FormTemplates> searchPageList(String sql, Map<String, Object> params);
 
     RestResult<FormTemplates> findTemplateById(Long id);
 
