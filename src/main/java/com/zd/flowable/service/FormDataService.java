@@ -2,6 +2,7 @@ package com.zd.flowable.service;
 
 import com.zd.flowable.model.FormDataProperty;
 import com.zd.flowable.model.Result;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * @description:
@@ -11,4 +12,6 @@ import com.zd.flowable.model.Result;
 public interface FormDataService {
 
     Result addFormData(FormDataProperty formDataProperty);
+
+    Result uploadFile(MultipartFile file, FormDataProperty formDataProperty);
 }
