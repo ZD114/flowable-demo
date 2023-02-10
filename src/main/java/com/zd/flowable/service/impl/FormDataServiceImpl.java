@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 
 /**
  * @author zhangda
@@ -57,6 +58,39 @@ public class FormDataServiceImpl implements FormDataService {
 
         entity.setUpdateTime(LocalDateTime.now());
         entity.setFilePath(Constant.FILE_PATH + pathDate + "/" + fileName);
+
+        nameJdbcTemplate.update(JdbcUtility.getUpdateSql(entity), JdbcUtility.getSqlParameterSource(entity));
+
+        return Result.ok().data(Constant.RESULT, entity);
+    }
+
+    @Override
+    public Result delFormData(Long formDataId) {
+        var param = new HashMap<String, Object>();
+
+        param.put("id", formDataId);
+
+        nameJdbcTemplate.update("DELETE FROM form_data WHERE form_data_id = :id", param);
+
+        return Result.ok();
+    }
+
+    @Override
+    public FormData findFormDatById(Long formDataId) {
+        var param = new HashMap<String, Object>();
+
+        param.put("id", formDataId);
+
+        return nameJdbcTemplate.queryForObject("select * from form_data where form_data_id = :id", param, FormData.class);
+    }
+
+    @Override
+    public Result updateFormData(FormDataProperty formDataProperty) {
+
+        var entity = new FormData();
+        BeanUtils.copyProperties(formDataProperty, entity);
+
+        entity.setUpdateTime(LocalDateTime.now());
 
         nameJdbcTemplate.update(JdbcUtility.getUpdateSql(entity), JdbcUtility.getSqlParameterSource(entity));
 
