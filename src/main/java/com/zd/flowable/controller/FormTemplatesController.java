@@ -8,7 +8,7 @@ import com.zd.flowable.model.FormTemplatesSearchParam;
 import com.zd.flowable.model.Result;
 import com.zd.flowable.service.FormTemplatesService;
 import com.zd.flowable.utils.EasyExcelUtil;
-import net.logstash.logback.util.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -77,13 +77,13 @@ public class FormTemplatesController {
 
         var sql = new StringBuilder("SELECT * FROM form_templates WHERE 1=1 ");
 
-        if (!StringUtils.isEmpty(searchParam.getTitle())) {
+        if (StringUtils.isNotBlank(searchParam.getTitle())) {
             sql.append(" AND title like :title");
             params.put("title", "%" + searchParam.getTitle() + "%");
 
         }
 
-        if (!StringUtils.isEmpty(searchParam.getType())) {
+        if (StringUtils.isNotBlank(searchParam.getType())) {
             sql.append(" AND type := type");
             params.put("type", searchParam.getType());
 
