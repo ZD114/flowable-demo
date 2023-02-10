@@ -16,4 +16,8 @@ public class Constant {
     public static final String RESULT = "result";
 
     public static final String DEPLOYMENT_ID = "deploymentId"; //部署编号
+
+    /***************************************表单常量*****************************************/
+    public static final String FORM_TEMPLATES_ID = "formTemplatesId";//表单
+    public static final String FORM_DATA_ID = "formDataId"; //表单数据编号
 }

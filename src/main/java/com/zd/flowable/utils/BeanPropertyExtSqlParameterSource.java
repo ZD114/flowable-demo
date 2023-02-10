@@ -30,7 +30,7 @@ public class BeanPropertyExtSqlParameterSource extends AbstractSqlParameterSourc
     public BeanPropertyExtSqlParameterSource(Object object, @Nullable String... ignoreProperties) {
         this.beanWrapper = PropertyAccessorFactory.forBeanPropertyAccess(object);
 
-        var ignoreSet = Arrays.asList(ignoreProperties).stream().filter(str -> !StringUtils.isEmpty(str))
+        var ignoreSet = Arrays.asList(ignoreProperties).stream().filter(str -> !StringUtils.hasLength(str))
                 .collect(Collectors.toSet());
 
         if (!ignoreSet.isEmpty()) {

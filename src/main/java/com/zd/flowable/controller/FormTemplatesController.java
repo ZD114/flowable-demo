@@ -1,27 +1,20 @@
 package com.zd.flowable.controller;
 
-import com.alibaba.excel.EasyExcel;
 import com.zd.flowable.common.PageResult;
 import com.zd.flowable.common.RestResult;
 import com.zd.flowable.entity.FormTemplates;
-import com.zd.flowable.model.FormTemplateProperty;
-import com.zd.flowable.model.FormTemplateSearchParam;
+import com.zd.flowable.model.FormTemplatesProperty;
+import com.zd.flowable.model.FormTemplatesSearchParam;
 import com.zd.flowable.model.Result;
-import com.zd.flowable.service.FormTemplateService;
+import com.zd.flowable.service.FormTemplatesService;
 import com.zd.flowable.utils.EasyExcelUtil;
 import net.logstash.logback.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 自定义表单模板
@@ -34,7 +27,7 @@ import java.util.Map;
 public class FormTemplatesController {
 
     @Autowired
-    private FormTemplateService formTemplateService;
+    private FormTemplatesService formTemplateService;
 
     /**
      * 保存表单模板
@@ -43,7 +36,7 @@ public class FormTemplatesController {
      * @return
      */
     @PostMapping("")
-    public Result addTemplate(@RequestBody FormTemplateProperty formTemplateProperty) {
+    public Result addTemplate(@RequestBody FormTemplatesProperty formTemplateProperty) {
         return formTemplateService.addTemplate(formTemplateProperty);
     }
 
@@ -65,7 +58,7 @@ public class FormTemplatesController {
      * @return
      */
     @PutMapping("")
-    public Result updateTemplate(@RequestBody FormTemplateProperty formTemplateProperty) {
+    public Result updateTemplate(@RequestBody FormTemplatesProperty formTemplateProperty) {
         return formTemplateService.updateTemplate(formTemplateProperty);
     }
 
@@ -76,9 +69,9 @@ public class FormTemplatesController {
      * @return
      */
     @PostMapping("/list")
-    public PageResult<FormTemplateProperty> searchPage(FormTemplateSearchParam searchParam) {
+    public PageResult<FormTemplatesProperty> searchPage(FormTemplatesSearchParam searchParam) {
 
-        var pageResult = new PageResult<FormTemplateProperty>();
+        var pageResult = new PageResult<FormTemplatesProperty>();
 
         var params = new HashMap<String, Object>();
 
@@ -143,6 +136,7 @@ public class FormTemplatesController {
 
     /**
      * 导出excel
+     *
      * @return
      */
     @GetMapping("/download")

@@ -6,7 +6,7 @@ import com.zd.flowable.common.PageParam;
  * @author zhangda
  * @date: 2023/2/9
  **/
-public class FormTemplateSearchParam extends PageParam {
+public class FormTemplatesSearchParam extends PageParam {
 
     /**
      * 模板名称
