@@ -1,7 +1,11 @@
 package com.zd.flowable.service;
 
+import com.zd.flowable.entity.FormHang;
 import com.zd.flowable.model.FormHangProperty;
 import com.zd.flowable.model.Result;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * @description:
@@ -15,5 +19,11 @@ public interface FormHangService {
     Result delFormHang(String id);
 
     Result delHangByFormDataId(String formDataId);
+
+    Result updateFormHang(FormHangProperty formHangProperty);
+
+    List<FormHang> searchPageList(String sql, Map<String, Object> params);
+
+    Integer countFormHang(String sql, Map<String, Object> params);
 
 }
