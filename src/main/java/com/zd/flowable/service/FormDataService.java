@@ -30,4 +30,6 @@ public interface FormDataService {
     List<FormData> searchPageList(String sql, Map<String, Object> params);
 
     Result delBatchFormData(List<Long> ids);
+
+    List<FormData> queryAll();
 }

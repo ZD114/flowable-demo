@@ -129,4 +129,9 @@ public class FormDataServiceImpl implements FormDataService {
 
         return Result.ok();
     }
+
+    @Override
+    public List<FormData> queryAll() {
+        return nameJdbcTemplate.query("select * from form_data", new BeanPropertyRowMapper<>(FormData.class));
+    }
 }

@@ -7,6 +7,7 @@ import com.zd.flowable.model.FormDataSearchParam;
 import com.zd.flowable.model.Result;
 import com.zd.flowable.service.FormDataService;
 import com.zd.flowable.utils.DelFileUtil;
+import com.zd.flowable.utils.FileDownload;
 import com.zd.flowable.utils.PathUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -16,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.List;
 
@@ -182,11 +184,28 @@ public class FormDataController {
 
     /**
      * 批量删除
+     *
      * @param ids 表单数据编号列表
      * @return
      */
     @PostMapping("/delBatch")
     public Result delBatch(@RequestBody List<Long> ids) {
         return formDataService.delBatchFormData(ids);
+    }
+
+    /**
+     * 下载文件
+     *
+     * @param fileName 文件名
+     * @param filePath 文件路径
+     * @param response
+     */
+    @GetMapping("/download")
+    public void downloadExcel(@RequestParam("fileName") String fileName, @RequestParam("filePath") String filePath, HttpServletResponse response) {
+        try {
+            FileDownload.fileDownload(response, PathUtil.getProjectPath() + filePath, fileName + filePath.substring(58));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
