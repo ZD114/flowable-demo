@@ -91,4 +91,13 @@ public class FormHangServiceImpl implements FormHangService {
     public Integer countFormHang(String sql, Map<String, Object> params) {
         return nameJdbcTemplate.queryForObject(sql, params, Integer.class);
     }
+
+    @Override
+    public FormHang findFormHangById(String id) {
+        var param = new HashMap<String, Object>();
+
+        param.put("id", id);
+
+        return nameJdbcTemplate.queryForObject("select * from form_hang where form_hang_id = :id", param, FormHang.class);
+    }
 }

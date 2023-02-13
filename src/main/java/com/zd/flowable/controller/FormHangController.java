@@ -114,4 +114,14 @@ public class FormHangController {
         return pageResult;
     }
 
+    /**
+     * 根据挂靠编号查询
+     *
+     * @param id 挂靠编号
+     * @return
+     */
+    @GetMapping("/{id}")
+    public FormHang findFormHangById(@PathVariable String id) {
+        return formHangService.findFormHangById(id);
+    }
 }

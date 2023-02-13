@@ -26,4 +26,6 @@ public interface FormHangService {
 
     Integer countFormHang(String sql, Map<String, Object> params);
 
+    FormHang findFormHangById(String id);
+
 }
