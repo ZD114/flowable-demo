@@ -28,4 +28,6 @@ public interface FormHangService {
 
     FormHang findFormHangById(String id);
 
+    Result delBatch(List<String> ids);
+
 }

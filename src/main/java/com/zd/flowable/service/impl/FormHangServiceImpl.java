@@ -10,10 +10,13 @@ import com.zd.flowable.utils.UuidUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSourceUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -99,5 +102,22 @@ public class FormHangServiceImpl implements FormHangService {
         param.put("id", id);
 
         return nameJdbcTemplate.queryForObject("select * from form_hang where form_hang_id = :id", param, FormHang.class);
+    }
+
+    @Override
+    public Result delBatch(List<String> ids) {
+        List<FormHang> list = new ArrayList<>();
+
+        for (int i = 0; i < ids.size(); i++) {
+            FormHang fh = new FormHang();
+            fh.setFormHangId(ids.get(i));
+            list.add(fh);
+        }
+
+        SqlParameterSource[] batch = SqlParameterSourceUtils.createBatch(list);
+
+        nameJdbcTemplate.batchUpdate("DELETE FROM form_hang WHERE form_hang_id = :formHangId", batch);
+
+        return Result.ok();
     }
 }

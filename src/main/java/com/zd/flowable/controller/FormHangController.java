@@ -6,13 +6,18 @@ import com.zd.flowable.model.FormHangProperty;
 import com.zd.flowable.model.FormHangSearchParam;
 import com.zd.flowable.model.Result;
 import com.zd.flowable.service.FormHangService;
+import liquibase.pro.packaged.F;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSourceUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * 挂靠表单
@@ -123,5 +128,15 @@ public class FormHangController {
     @GetMapping("/{id}")
     public FormHang findFormHangById(@PathVariable String id) {
         return formHangService.findFormHangById(id);
+    }
+
+    /**
+     * 批量删除
+     * @param ids 挂靠编号列表
+     * @return
+     */
+    @PostMapping("/delBatch")
+    public Result delBatch(@RequestBody List<String> ids) {
+        return formHangService.delBatch(ids);
     }
 }
