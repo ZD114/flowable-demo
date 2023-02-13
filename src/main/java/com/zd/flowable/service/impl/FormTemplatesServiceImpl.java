@@ -106,7 +106,7 @@ public class FormTemplatesServiceImpl implements FormTemplatesService {
             list.add(ft);
         }
 
-        SqlParameterSource[] batch = SqlParameterSourceUtils.createBatch(ids.toArray());
+        SqlParameterSource[] batch = SqlParameterSourceUtils.createBatch(list);
 
         nameJdbcTemplate.batchUpdate("DELETE FROM form_templates WHERE form_templates_id = :formTemplatesId", batch);
 

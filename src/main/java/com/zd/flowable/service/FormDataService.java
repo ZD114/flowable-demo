@@ -28,4 +28,6 @@ public interface FormDataService {
     Integer countFormData(String sql, Map<String, Object> params);
 
     List<FormData> searchPageList(String sql, Map<String, Object> params);
+
+    Result delBatchFormData(List<Long> ids);
 }

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * 表单数据操作
@@ -177,5 +178,15 @@ public class FormDataController {
     @GetMapping("/{id}")
     public FormData findFormDataById(@PathVariable Long id) {
         return formDataService.findFormDataById(id);
+    }
+
+    /**
+     * 批量删除
+     * @param ids 表单数据编号列表
+     * @return
+     */
+    @PostMapping("/delBatch")
+    public Result delBatch(@RequestBody List<Long> ids) {
+        return formDataService.delBatchFormData(ids);
     }
 }

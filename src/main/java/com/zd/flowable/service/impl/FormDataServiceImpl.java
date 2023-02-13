@@ -8,12 +8,15 @@ import com.zd.flowable.utils.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSourceUtils;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -108,5 +111,22 @@ public class FormDataServiceImpl implements FormDataService {
     @Override
     public List<FormData> searchPageList(String sql, Map<String, Object> params) {
         return nameJdbcTemplate.query(sql, params, new BeanPropertyRowMapper<>(FormData.class));
+    }
+
+    @Override
+    public Result delBatchFormData(List<Long> ids) {
+        List<FormData> list = new ArrayList<>();
+
+        for (int i = 0; i < ids.size(); i++) {
+            FormData fd = new FormData();
+            fd.setFormDataId(ids.get(i));
+            list.add(fd);
+        }
+
+        SqlParameterSource[] batch = SqlParameterSourceUtils.createBatch(list);
+
+        nameJdbcTemplate.batchUpdate("DELETE FROM form_data WHERE form_data_id = :formDataId", batch);
+
+        return Result.ok();
     }
 }
