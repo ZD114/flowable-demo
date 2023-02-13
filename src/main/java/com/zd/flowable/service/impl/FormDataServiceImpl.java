@@ -124,6 +124,8 @@ public class FormDataServiceImpl implements FormDataService {
 
         SqlParameterSource[] batch = SqlParameterSourceUtils.createBatch(list);
 
+        // 批量删除挂靠记录和数据
+        nameJdbcTemplate.batchUpdate("DELETE FROM form_hang WHERE form_data_id = :formDataId", batch);
         nameJdbcTemplate.batchUpdate("DELETE FROM form_data WHERE form_data_id = :formDataId", batch);
 
         return Result.ok();

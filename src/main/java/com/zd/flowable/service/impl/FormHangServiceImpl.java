@@ -1,7 +1,6 @@
 package com.zd.flowable.service.impl;
 
 import com.zd.flowable.entity.FormHang;
-import com.zd.flowable.entity.FormTemplates;
 import com.zd.flowable.model.FormHangProperty;
 import com.zd.flowable.model.Result;
 import com.zd.flowable.service.FormHangService;
@@ -14,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 
 /**
  * @author zhangda
@@ -43,5 +43,27 @@ public class FormHangServiceImpl implements FormHangService {
                     JdbcUtility.getSqlParameterSource(entity, Constant.FORM_HANG_ID));
         }
         return null;
+    }
+
+    @Override
+    public Result delFormHang(String id) {
+        var param = new HashMap<String, Object>();
+
+        param.put("id", id);
+
+        nameJdbcTemplate.update("delete from form_hang where form_hang_id = :id", param);
+
+        return Result.ok();
+    }
+
+    @Override
+    public Result delHangByFormDataId(String formDataId) {
+        var param = new HashMap<String, Object>();
+
+        param.put("id", formDataId);
+
+        nameJdbcTemplate.update("delete from form_hang where form_data_id = :id", param);
+
+        return Result.ok();
     }
 }

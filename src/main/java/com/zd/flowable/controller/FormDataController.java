@@ -6,6 +6,7 @@ import com.zd.flowable.model.FormDataProperty;
 import com.zd.flowable.model.FormDataSearchParam;
 import com.zd.flowable.model.Result;
 import com.zd.flowable.service.FormDataService;
+import com.zd.flowable.service.FormHangService;
 import com.zd.flowable.utils.DelFileUtil;
 import com.zd.flowable.utils.FileDownload;
 import com.zd.flowable.utils.PathUtil;
@@ -33,6 +34,8 @@ public class FormDataController {
 
     @Autowired
     private FormDataService formDataService;
+    @Autowired
+    private FormHangService formHangService;
 
     private static final Logger log = LoggerFactory.getLogger(FormDataService.class);
 
@@ -73,6 +76,7 @@ public class FormDataController {
             DelFileUtil.delFolder(PathUtil.getProjectPath() + filePath.trim());
         }
 
+        formHangService.delHangByFormDataId(formDataId);
         formDataService.delFormData(formDataId);
 
         return null;

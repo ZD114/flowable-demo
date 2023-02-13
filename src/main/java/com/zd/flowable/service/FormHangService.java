@@ -12,4 +12,8 @@ public interface FormHangService {
 
     Result addFormHang(FormHangProperty formHangProperty);
 
+    Result delFormHang(String id);
+
+    Result delHangByFormDataId(String formDataId);
+
 }
