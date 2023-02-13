@@ -1,9 +1,7 @@
 package com.zd.flowable.service;
 
 import com.zd.flowable.entity.FormData;
-import com.zd.flowable.entity.FormTemplates;
 import com.zd.flowable.model.FormDataProperty;
-import com.zd.flowable.model.FormTemplatesProperty;
 import com.zd.flowable.model.Result;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -23,11 +21,11 @@ public interface FormDataService {
 
     Result delFormData(Long formDataId);
 
-    FormData findFormDatById(Long formDataId);
+    FormData findFormDataById(Long formDataId);
 
     Result updateFormData(FormDataProperty formDataProperty);
 
-    Integer countFormData(String sql, Map<String,Object> params);
+    Integer countFormData(String sql, Map<String, Object> params);
 
     List<FormData> searchPageList(String sql, Map<String, Object> params);
 }

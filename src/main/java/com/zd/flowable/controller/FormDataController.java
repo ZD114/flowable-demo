@@ -84,7 +84,7 @@ public class FormDataController {
     @DeleteMapping("/delFile/{formDataId}")
     public Result delFile(@PathVariable Long formDataId) {
 
-        var entity = formDataService.findFormDatById(formDataId);
+        var entity = formDataService.findFormDataById(formDataId);
 
         if (entity != null && StringUtils.isNotBlank(entity.getFilePath())) {
             DelFileUtil.delFolder(PathUtil.getProjectPath() + entity.getFilePath().trim());
@@ -112,6 +112,7 @@ public class FormDataController {
 
     /**
      * 列表
+     *
      * @param searchParam
      * @return
      */
@@ -131,7 +132,7 @@ public class FormDataController {
 
         if (StringUtils.isNotBlank(searchParam.getUserName())) {
             sql.append(" AND user_name like :userName ");
-            params.put("userName",  "%" + searchParam.getUserName() + "%");
+            params.put("userName", "%" + searchParam.getUserName() + "%");
 
         }
 
@@ -165,5 +166,16 @@ public class FormDataController {
         pageResult.setTotalPages((long) Math.ceil(totalCount / (double) searchParam.getPageSize()));
 
         return pageResult;
+    }
+
+    /**
+     * 根据表单数据编号查询对象
+     *
+     * @param id 表单数据编号
+     * @return
+     */
+    @GetMapping("/{id}")
+    public FormData findFormDataById(@PathVariable Long id) {
+        return formDataService.findFormDataById(id);
     }
 }
