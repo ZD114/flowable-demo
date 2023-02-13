@@ -47,7 +47,7 @@ public class FormTemplatesController {
      * @return
      */
     @DeleteMapping("/{id}")
-    public Result delTemplate(@PathVariable Long id) {
+    public Result delTemplate(@PathVariable String id) {
         return formTemplateService.delTemplate(id);
     }
 
@@ -119,19 +119,19 @@ public class FormTemplatesController {
      * @return
      */
     @GetMapping("/{id}")
-    public RestResult<FormTemplates> findTemplateById(@PathVariable Long id) {
+    public RestResult<FormTemplates> findTemplateById(@PathVariable String id) {
         return formTemplateService.findTemplateById(id);
     }
 
     /**
      * 批量删除模板
      *
-     * @param ids 模板编号列表
+     * @param id 模板编号列表
      * @return
      */
     @PostMapping("/delBatch")
-    public Result delTemplateBatch(@RequestBody List<Long> ids) {
-        return formTemplateService.delTemplateBatch(ids);
+    public Result delTemplateBatch(@RequestBody String id) {
+        return formTemplateService.delTemplateBatch(id);
     }
 
     /**

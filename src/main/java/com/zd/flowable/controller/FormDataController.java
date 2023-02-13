@@ -67,7 +67,7 @@ public class FormDataController {
      * @return
      */
     @DeleteMapping("")
-    public Result delFormData(@RequestParam("formDataId") Long formDataId, @RequestParam("filePath") String filePath) {
+    public Result delFormData(@RequestParam("formDataId") String formDataId, @RequestParam("filePath") String filePath) {
 
         if (StringUtils.isNotBlank(filePath)) {
             DelFileUtil.delFolder(PathUtil.getProjectPath() + filePath.trim());
@@ -85,7 +85,7 @@ public class FormDataController {
      * @return
      */
     @DeleteMapping("/delFile/{formDataId}")
-    public Result delFile(@PathVariable Long formDataId) {
+    public Result delFile(@PathVariable String formDataId) {
 
         var entity = formDataService.findFormDataById(formDataId);
 
@@ -178,18 +178,18 @@ public class FormDataController {
      * @return
      */
     @GetMapping("/{id}")
-    public FormData findFormDataById(@PathVariable Long id) {
+    public FormData findFormDataById(@PathVariable String id) {
         return formDataService.findFormDataById(id);
     }
 
     /**
      * 批量删除
      *
-     * @param ids 表单数据编号列表
+     * @param ids 表单数据编号
      * @return
      */
     @PostMapping("/delBatch")
-    public Result delBatch(@RequestBody List<Long> ids) {
+    public Result delBatch(@RequestBody String ids) {
         return formDataService.delBatchFormData(ids);
     }
 

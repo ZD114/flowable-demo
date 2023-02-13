@@ -33,19 +33,17 @@ public class FormDataServiceImpl implements FormDataService {
 
     @Override
     public Result addFormData(FormDataProperty formDataProperty) {
-        var keyData = new GeneratedKeyHolder();
         var entity = new FormData();
         var now = LocalDateTime.now();
 
         BeanUtils.copyProperties(formDataProperty, entity, Constant.FORM_DATA_ID);
 
+        entity.setFormDataId(UuidUtil.get32UUID());
         entity.setUpdateTime(now);
         entity.setCreateTime(now);
 
         nameJdbcTemplate.update(JdbcUtility.getInsertSql(entity, true, Constant.FORM_DATA_ID),
-                JdbcUtility.getSqlParameterSource(entity, Constant.FORM_DATA_ID), keyData);
-
-        entity.setFormDataId(keyData.getKey().longValue());
+                JdbcUtility.getSqlParameterSource(entity, Constant.FORM_DATA_ID));
 
         return Result.ok().data(Constant.RESULT, entity);
     }
@@ -71,7 +69,7 @@ public class FormDataServiceImpl implements FormDataService {
     }
 
     @Override
-    public Result delFormData(Long formDataId) {
+    public Result delFormData(String formDataId) {
         var param = new HashMap<String, Object>();
 
         param.put("id", formDataId);
@@ -82,7 +80,7 @@ public class FormDataServiceImpl implements FormDataService {
     }
 
     @Override
-    public FormData findFormDataById(Long formDataId) {
+    public FormData findFormDataById(String formDataId) {
         var param = new HashMap<String, Object>();
 
         param.put("id", formDataId);
@@ -114,12 +112,13 @@ public class FormDataServiceImpl implements FormDataService {
     }
 
     @Override
-    public Result delBatchFormData(List<Long> ids) {
+    public Result delBatchFormData(String ids) {
         List<FormData> list = new ArrayList<>();
+        var realIds = ids.split(",");
 
-        for (int i = 0; i < ids.size(); i++) {
+        for (int i = 0; i < realIds.length; i++) {
             FormData fd = new FormData();
-            fd.setFormDataId(ids.get(i));
+            fd.setFormDataId(realIds[i]);
             list.add(fd);
         }
 

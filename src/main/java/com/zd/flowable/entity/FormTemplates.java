@@ -15,7 +15,7 @@ public class FormTemplates {
      * 模板编号
      */
     @ExcelProperty(value = "模板编号", index = 0)
-    private Long formTemplatesId;
+    private String formTemplatesId;
 
     /**
      * 模板名称
@@ -47,11 +47,11 @@ public class FormTemplates {
     @ExcelProperty(value = "更新时间", index = 5)
     private LocalDateTime updateTime;
 
-    public Long getFormTemplatesId() {
+    public String getFormTemplatesId() {
         return formTemplatesId;
     }
 
-    public void setFormTemplatesId(Long formTemplatesId) {
+    public void setFormTemplatesId(String formTemplatesId) {
         this.formTemplatesId = formTemplatesId;
     }
 

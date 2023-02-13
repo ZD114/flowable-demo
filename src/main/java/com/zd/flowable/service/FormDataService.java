@@ -19,9 +19,9 @@ public interface FormDataService {
 
     Result uploadFile(MultipartFile file, FormDataProperty formDataProperty);
 
-    Result delFormData(Long formDataId);
+    Result delFormData(String formDataId);
 
-    FormData findFormDataById(Long formDataId);
+    FormData findFormDataById(String formDataId);
 
     Result updateFormData(FormDataProperty formDataProperty);
 
@@ -29,7 +29,7 @@ public interface FormDataService {
 
     List<FormData> searchPageList(String sql, Map<String, Object> params);
 
-    Result delBatchFormData(List<Long> ids);
+    Result delBatchFormData(String ids);
 
     List<FormData> queryAll();
 }

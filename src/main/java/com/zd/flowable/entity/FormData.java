@@ -10,7 +10,7 @@ public class FormData {
     /**
      * 表单数据编号
      */
-    private Long formDataId;
+    private String formDataId;
 
     /**
      * 表单标签
@@ -60,7 +60,7 @@ public class FormData {
     /**
      * 我的表单编号
      */
-    private Long myFormId;
+    private String myFormId;
 
     /**
      * 数据私有
@@ -83,11 +83,11 @@ public class FormData {
      */
     private LocalDateTime updateTime;
 
-    public Long getFormDataId() {
+    public String getFormDataId() {
         return formDataId;
     }
 
-    public void setFormDataId(Long formDataId) {
+    public void setFormDataId(String formDataId) {
         this.formDataId = formDataId;
     }
 
@@ -163,11 +163,11 @@ public class FormData {
         this.isFile = isFile;
     }
 
-    public Long getMyFormId() {
+    public String getMyFormId() {
         return myFormId;
     }
 
-    public void setMyFormId(Long myFormId) {
+    public void setMyFormId(String myFormId) {
         this.myFormId = myFormId;
     }
 

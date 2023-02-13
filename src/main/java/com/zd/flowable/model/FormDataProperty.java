@@ -11,7 +11,7 @@ public class FormDataProperty {
     /**
      * 表单数据编号
      */
-    private Long formDataId;
+    private String formDataId;
 
     /**
      * 表单标签
@@ -61,7 +61,7 @@ public class FormDataProperty {
     /**
      * 我的表单编号
      */
-    private Long myFormId;
+    private String myFormId;
 
     /**
      * 数据私有
@@ -83,14 +83,6 @@ public class FormDataProperty {
      * 更新时间
      */
     private LocalDateTime updateTime;
-
-    public Long getFormDataId() {
-        return formDataId;
-    }
-
-    public void setFormDataId(Long formDataId) {
-        this.formDataId = formDataId;
-    }
 
     public String getTitle() {
         return title;
@@ -164,11 +156,19 @@ public class FormDataProperty {
         this.isFile = isFile;
     }
 
-    public Long getMyFormId() {
+    public String getFormDataId() {
+        return formDataId;
+    }
+
+    public void setFormDataId(String formDataId) {
+        this.formDataId = formDataId;
+    }
+
+    public String getMyFormId() {
         return myFormId;
     }
 
-    public void setMyFormId(Long myFormId) {
+    public void setMyFormId(String myFormId) {
         this.myFormId = myFormId;
     }
 

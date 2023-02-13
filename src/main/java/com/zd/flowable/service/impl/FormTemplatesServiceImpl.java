@@ -7,6 +7,7 @@ import com.zd.flowable.model.Result;
 import com.zd.flowable.service.FormTemplatesService;
 import com.zd.flowable.utils.Constant;
 import com.zd.flowable.utils.JdbcUtility;
+import com.zd.flowable.utils.UuidUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -34,25 +35,23 @@ public class FormTemplatesServiceImpl implements FormTemplatesService {
 
     @Override
     public Result addTemplate(FormTemplatesProperty templateProperty) {
-        var keyHolder = new GeneratedKeyHolder();
         var entity = new FormTemplates();
         var now = LocalDateTime.now();
 
         BeanUtils.copyProperties(templateProperty, entity, Constant.FORM_TEMPLATES_ID);
 
+        entity.setFormTemplatesId(UuidUtil.get32UUID());
         entity.setCreateTime(now);
         entity.setUpdateTime(now);
 
         nameJdbcTemplate.update(JdbcUtility.getInsertSql(entity, true, Constant.FORM_TEMPLATES_ID),
-                JdbcUtility.getSqlParameterSource(entity, Constant.FORM_TEMPLATES_ID), keyHolder);
-
-        entity.setFormTemplatesId(keyHolder.getKey().longValue());
+                JdbcUtility.getSqlParameterSource(entity, Constant.FORM_TEMPLATES_ID));
 
         return Result.ok().data(Constant.RESULT, entity);
     }
 
     @Override
-    public Result delTemplate(Long id) {
+    public Result delTemplate(String id) {
 
         var param = new HashMap<String, Object>();
 
@@ -86,7 +85,7 @@ public class FormTemplatesServiceImpl implements FormTemplatesService {
     }
 
     @Override
-    public RestResult<FormTemplates> findTemplateById(Long id) {
+    public RestResult<FormTemplates> findTemplateById(String id) {
         var param = new HashMap<String, Object>();
 
         param.put("id", id);
@@ -97,12 +96,13 @@ public class FormTemplatesServiceImpl implements FormTemplatesService {
     }
 
     @Override
-    public Result delTemplateBatch(List<Long> ids) {
+    public Result delTemplateBatch(String id) {
         List<FormTemplates> list = new ArrayList<>();
+        var ids = id.split(",");
 
-        for (int i = 0; i < ids.size(); i++) {
+        for (int i = 0; i < ids.length; i++) {
             FormTemplates ft = new FormTemplates();
-            ft.setFormTemplatesId(ids.get(i));
+            ft.setFormTemplatesId(ids[i]);
             list.add(ft);
         }
 

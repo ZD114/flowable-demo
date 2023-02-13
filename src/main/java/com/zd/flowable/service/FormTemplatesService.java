@@ -16,7 +16,7 @@ public interface FormTemplatesService {
 
     Result addTemplate(FormTemplatesProperty templateProperty);
 
-    Result delTemplate(Long id);
+    Result delTemplate(String id);
 
     Result updateTemplate(FormTemplatesProperty templateProperty);
 
@@ -24,9 +24,9 @@ public interface FormTemplatesService {
 
     List<FormTemplates> searchPageList(String sql, Map<String, Object> params);
 
-    RestResult<FormTemplates> findTemplateById(Long id);
+    RestResult<FormTemplates> findTemplateById(String id);
 
-    Result delTemplateBatch(List<Long> ids);
+    Result delTemplateBatch(String id);
 
     List<FormTemplates> queryAll();
 }
