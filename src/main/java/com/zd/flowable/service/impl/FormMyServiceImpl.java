@@ -2,6 +2,7 @@ package com.zd.flowable.service.impl;
 
 import com.zd.flowable.entity.FormHang;
 import com.zd.flowable.entity.FormMy;
+import com.zd.flowable.entity.FormTemplates;
 import com.zd.flowable.model.FormMyProperty;
 import com.zd.flowable.model.Result;
 import com.zd.flowable.service.FormMyService;
@@ -106,5 +107,10 @@ public class FormMyServiceImpl implements FormMyService {
         nameJdbcTemplate.batchUpdate("DELETE FROM form_my WHERE form_my_id = :formMyId", batch);
 
         return Result.ok();
+    }
+
+    @Override
+    public List<FormMy> queryAll() {
+        return nameJdbcTemplate.query("select * from form_my", new BeanPropertyRowMapper<>(FormMy.class));
     }
 }

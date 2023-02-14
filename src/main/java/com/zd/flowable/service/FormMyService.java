@@ -26,4 +26,6 @@ public interface FormMyService {
     FormMy findFormMyById(String id);
 
     Result delBatchFormMy(List<String> ids);
+
+    List<FormMy> queryAll();
 }

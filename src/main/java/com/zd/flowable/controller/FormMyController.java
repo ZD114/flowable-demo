@@ -9,12 +9,14 @@ import com.zd.flowable.model.ResultCodeEnum;
 import com.zd.flowable.service.FormDataService;
 import com.zd.flowable.service.FormMyService;
 import com.zd.flowable.service.FormTemplatesService;
+import com.zd.flowable.utils.EasyExcelUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.List;
 
@@ -178,5 +180,16 @@ public class FormMyController {
     @PostMapping("/delBatch")
     public Result delBatch(@RequestBody List<String> ids) {
         return formMyService.delBatchFormMy(ids);
+    }
+
+    /**
+     * 导出excel
+     *
+     * @param fileName 文件名称
+     * @param response
+     */
+    @GetMapping("/download")
+    public void downloadExcel(@RequestParam("fileName") String fileName, HttpServletResponse response) {
+        EasyExcelUtil.downloadExcel(response, fileName, formMyService.queryAll());
     }
 }
