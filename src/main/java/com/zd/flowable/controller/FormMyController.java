@@ -1,16 +1,21 @@
 package com.zd.flowable.controller;
 
-import com.alibaba.excel.util.StringUtils;
-import com.zd.flowable.entity.FormData;
+import com.zd.flowable.common.PageResult;
+import com.zd.flowable.entity.FormMy;
 import com.zd.flowable.model.FormMyProperty;
+import com.zd.flowable.model.FormMySearchParam;
 import com.zd.flowable.model.Result;
 import com.zd.flowable.model.ResultCodeEnum;
 import com.zd.flowable.service.FormDataService;
 import com.zd.flowable.service.FormMyService;
 import com.zd.flowable.service.FormTemplatesService;
-import liquibase.pro.packaged.P;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
 
 /**
  * 我的表单管理
@@ -28,6 +33,8 @@ public class FormMyController {
     private FormTemplatesService formTemplatesService;
     @Autowired
     private FormDataService formDataService;
+
+    private static final Logger log = LoggerFactory.getLogger(FormMyController.class);
 
     /**
      * 保存我的表单
@@ -59,6 +66,7 @@ public class FormMyController {
 
     /**
      * 更新
+     *
      * @param formMyProperty
      * @return
      */
@@ -78,5 +86,74 @@ public class FormMyController {
         }
 
         return formMyService.updateFormMy(formMyProperty);
+    }
+
+    /**
+     * 列表
+     *
+     * @param searchParam
+     * @return
+     */
+    @PostMapping("/list")
+    public PageResult<FormMy> searchPage(FormMySearchParam searchParam) {
+
+        var pageResult = new PageResult<FormMy>();
+
+        var params = new HashMap<String, Object>();
+
+        var sql = new StringBuilder("SELECT * FROM form_my WHERE 1=1 ");
+
+        if (StringUtils.isNotBlank(searchParam.getTitle())) {
+            sql.append(" AND title like :title");
+            params.put("title", "%" + searchParam.getTitle() + "%");
+
+        }
+
+        if (StringUtils.isNotBlank(searchParam.getUserName())) {
+            sql.append(" AND user_name like :userName");
+            params.put("userName", "%" + searchParam.getUserName() + "%");
+        }
+
+        if (searchParam.getIsFile() > 0) {
+            sql.append(" AND is_file := isFile ");
+            params.put("isFile", searchParam.getIsFile());
+
+        }
+
+        if (searchParam.getIsImage() > 0) {
+            sql.append(" AND is_image := isImage ");
+            params.put("isImage", searchParam.getIsImage());
+
+        }
+
+        if (searchParam.getIsPrivate() > 0) {
+            sql.append(" AND is_private := isPrivate ");
+            params.put("isPrivate", searchParam.getIsPrivate());
+
+        }
+        var sqlCount = new StringBuilder("SELECT COUNT(1) FROM( " + sql + " GROUP BY form_my_id ) eq");
+
+        var totalCount = formMyService.countFormMy(sqlCount.toString(), params);
+
+        log.info("我的表单总数量：{}", totalCount);
+
+        if (totalCount > 0) {
+
+            var start = searchParam.getPageIndex() == 0 ? 0
+                    : (searchParam.getPageIndex() - 1) * searchParam.getPageSize();
+
+            sql.append(" GROUP BY form_templates_id ORDER BY form_templates_id DESC LIMIT :start,:pageSize ");
+            params.put("start", start);
+            params.put("pageSize", searchParam.getPageSize());
+
+            var resources = formMyService.searchPageList(sql.toString(), params);
+
+            pageResult.setData(resources);
+        }
+
+        pageResult.setTotal(totalCount);
+        pageResult.setTotalPages((long) Math.ceil(totalCount / (double) searchParam.getPageSize()));
+
+        return pageResult;
     }
 }

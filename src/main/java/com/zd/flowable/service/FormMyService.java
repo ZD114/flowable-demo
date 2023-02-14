@@ -1,7 +1,11 @@
 package com.zd.flowable.service;
 
+import com.zd.flowable.entity.FormMy;
 import com.zd.flowable.model.FormMyProperty;
 import com.zd.flowable.model.Result;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author zhangda
@@ -14,4 +18,8 @@ public interface FormMyService {
     Result delFormMy(String id);
 
     Result updateFormMy(FormMyProperty formMyProperty);
+
+    Integer countFormMy(String sql, Map<String, Object> params);
+
+    List<FormMy> searchPageList(String sql, Map<String, Object> params);
 }
