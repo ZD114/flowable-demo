@@ -6,10 +6,7 @@ import com.zd.flowable.model.Result;
 import com.zd.flowable.service.FormMyService;
 import com.zd.flowable.service.FormTemplatesService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 我的表单管理
@@ -41,5 +38,16 @@ public class FormMyController {
         }
 
         return formMyService.addFormMy(formMyProperty);
+    }
+
+    /**
+     * 删除
+     *
+     * @param id 我的表单编号
+     * @return
+     */
+    @DeleteMapping("")
+    public Result delFormMy(@RequestParam String id) {
+        return formMyService.delFormMy(id);
     }
 }

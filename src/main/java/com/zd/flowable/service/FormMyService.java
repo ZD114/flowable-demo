@@ -10,4 +10,6 @@ import com.zd.flowable.model.Result;
 public interface FormMyService {
 
     Result addFormMy(FormMyProperty formMyProperty);
+
+    Result delFormMy(String id);
 }

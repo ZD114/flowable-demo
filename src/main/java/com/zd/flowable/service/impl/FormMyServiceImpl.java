@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 
 /**
  * @author zhangda
@@ -39,5 +40,16 @@ public class FormMyServiceImpl implements FormMyService {
                 JdbcUtility.getSqlParameterSource(entity, Constant.FORM_MY_ID));
 
         return Result.ok().data(Constant.RESULT, entity);
+    }
+
+    @Override
+    public Result delFormMy(String id) {
+        var param = new HashMap<String, Object>();
+
+        param.put("id", id);
+
+        nameJdbcTemplate.update("delete from form_my where form_my_id = :id", param);
+
+        return Result.ok();
     }
 }
