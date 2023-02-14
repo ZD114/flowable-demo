@@ -24,4 +24,6 @@ public interface FormMyService {
     List<FormMy> searchPageList(String sql, Map<String, Object> params);
 
     FormMy findFormMyById(String id);
+
+    Result delBatchFormMy(List<String> ids);
 }

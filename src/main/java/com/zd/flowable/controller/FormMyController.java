@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * 我的表单管理
@@ -59,8 +60,8 @@ public class FormMyController {
      * @param id 我的表单编号
      * @return
      */
-    @DeleteMapping("")
-    public Result delFormMy(@RequestParam String id) {
+    @DeleteMapping("/{id}")
+    public Result delFormMy(@PathVariable String id) {
         return formMyService.delFormMy(id);
     }
 
@@ -166,5 +167,16 @@ public class FormMyController {
     @GetMapping("/{id}")
     public FormMy findFormMyById(@PathVariable String id) {
         return formMyService.findFormMyById(id);
+    }
+
+    /**
+     * 批量删除
+     *
+     * @param ids 我的表单编号列表
+     * @return
+     */
+    @PostMapping("/delBatch")
+    public Result delBatch(@RequestBody List<String> ids) {
+        return formMyService.delBatchFormMy(ids);
     }
 }
