@@ -108,4 +108,21 @@ public class TaskController {
 
         return formModel.getFields();
     }
+
+    /**
+     * 查询拾取代办任务列表
+     *
+     * @param taskProperty
+     * @return
+     */
+    @GetMapping("/ingList")
+    public List<Task> claimTaskList(@RequestBody TaskProperty taskProperty) {
+        var processInstanceId = taskProperty.getProcessInstanceId();//执行编号
+        var userId = taskProperty.getUserId();//候选用户编号
+
+        return taskService.createTaskQuery()
+                .processInstanceId(processInstanceId)
+                .taskCandidateUser(userId)
+                .list();
+    }
 }
