@@ -22,4 +22,6 @@ public interface FormMyService {
     Integer countFormMy(String sql, Map<String, Object> params);
 
     List<FormMy> searchPageList(String sql, Map<String, Object> params);
+
+    FormMy findFormMyById(String id);
 }

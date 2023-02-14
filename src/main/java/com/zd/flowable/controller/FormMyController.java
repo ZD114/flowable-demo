@@ -156,4 +156,15 @@ public class FormMyController {
 
         return pageResult;
     }
+
+    /**
+     * 根据编号查询我的表单
+     *
+     * @param id 我的表单编号
+     * @return
+     */
+    @GetMapping("/{id}")
+    public FormMy findFormMyById(@PathVariable String id) {
+        return formMyService.findFormMyById(id);
+    }
 }

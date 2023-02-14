@@ -1,5 +1,6 @@
 package com.zd.flowable.service.impl;
 
+import com.zd.flowable.entity.FormHang;
 import com.zd.flowable.entity.FormMy;
 import com.zd.flowable.model.FormMyProperty;
 import com.zd.flowable.model.Result;
@@ -76,5 +77,14 @@ public class FormMyServiceImpl implements FormMyService {
     @Override
     public List<FormMy> searchPageList(String sql, Map<String, Object> params) {
         return nameJdbcTemplate.query(sql, params, new BeanPropertyRowMapper<>(FormMy.class));
+    }
+
+    @Override
+    public FormMy findFormMyById(String id) {
+        var param = new HashMap<String, Object>();
+
+        param.put("id", id);
+
+        return nameJdbcTemplate.queryForObject("select * from form_my where form_my_id = :id", param, FormMy.class);
     }
 }
