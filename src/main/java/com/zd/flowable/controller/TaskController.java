@@ -1,6 +1,7 @@
 package com.zd.flowable.controller;
 
 import com.zd.flowable.model.Result;
+import com.zd.flowable.model.ResultCodeEnum;
 import com.zd.flowable.model.TaskProperty;
 import org.apache.commons.lang3.StringUtils;
 import org.flowable.engine.TaskService;
@@ -115,7 +116,7 @@ public class TaskController {
      * @param taskProperty
      * @return
      */
-    @GetMapping("/ingList")
+    @PostMapping("/candidate/list")
     public List<Task> claimTaskList(@RequestBody TaskProperty taskProperty) {
         var processInstanceId = taskProperty.getProcessInstanceId();//执行编号
         var userId = taskProperty.getUserId();//候选用户编号
@@ -124,5 +125,37 @@ public class TaskController {
                 .processInstanceId(processInstanceId)
                 .taskCandidateUser(userId)
                 .list();
+    }
+
+    /**
+     * 候选人拾取任务
+     *
+     * @param taskProperty
+     * @return
+     */
+    @PostMapping("/claimTask")
+    public Result claimTaskUser(@RequestBody TaskProperty taskProperty) {
+        var processInstanceId = taskProperty.getProcessInstanceId();//执行编号
+        var userId = taskProperty.getUserId();//候选用户编号
+
+        if (StringUtils.isBlank(processInstanceId)) {
+            return Result.error(ResultCodeEnum.NULL_ARGUMENT_ERROR);
+        }
+        if (StringUtils.isBlank(userId)) {
+            return Result.error(ResultCodeEnum.NULL_ARGUMENT_ERROR);
+        }
+
+        Task task = taskService.createTaskQuery()
+                .processInstanceId(processInstanceId)
+                .taskCandidateUser(userId)
+                .singleResult();
+
+        if (task != null) {
+            // 拾取对应的任务
+            taskService.claim(task.getId(), userId);
+            log.info("任务拾取成功，拾取人：{}", userId);
+        }
+
+        return Result.ok();
     }
 }
