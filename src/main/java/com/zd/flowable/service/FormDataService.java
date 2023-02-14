@@ -2,6 +2,7 @@ package com.zd.flowable.service;
 
 import com.zd.flowable.entity.FormData;
 import com.zd.flowable.model.FormDataProperty;
+import com.zd.flowable.model.FormMyProperty;
 import com.zd.flowable.model.Result;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -32,4 +33,6 @@ public interface FormDataService {
     Result delBatchFormData(String ids);
 
     List<FormData> queryAll();
+
+    Result updateByFormMyId(FormMyProperty formMyProperty);
 }

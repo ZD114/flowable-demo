@@ -2,6 +2,7 @@ package com.zd.flowable.service.impl;
 
 import com.zd.flowable.entity.FormData;
 import com.zd.flowable.model.FormDataProperty;
+import com.zd.flowable.model.FormMyProperty;
 import com.zd.flowable.model.Result;
 import com.zd.flowable.service.FormDataService;
 import com.zd.flowable.utils.*;
@@ -133,5 +134,26 @@ public class FormDataServiceImpl implements FormDataService {
     @Override
     public List<FormData> queryAll() {
         return nameJdbcTemplate.query("select * from form_data", new BeanPropertyRowMapper<>(FormData.class));
+    }
+
+    @Override
+    public Result updateByFormMyId(FormMyProperty formMyProperty) {
+        var param = new HashMap<String, Object>();
+
+        param.put("isImage", formMyProperty.getIsImage());
+        param.put("isFile", formMyProperty.getIsFile());
+        param.put("isFwb", formMyProperty.getIsFwb());
+        param.put("isLc", formMyProperty.getIsLc());
+        param.put("dataPrivate", formMyProperty.getDataPrivate());
+        param.put("updateTime", LocalDateTime.now());
+        param.put("formMyId", formMyProperty.getFormMyId());
+
+        var sql = new StringBuilder("update form_data set is_image = :isImage, is_file = :isFile, ");
+        sql.append("is_fwb = :isFwb, is_lc = :isLc, data_private = :dataPrivate, update_time = updateTime ");
+        sql.append("where my_form_id = :formMyId");
+
+        nameJdbcTemplate.update(sql.toString(), param);
+
+        return Result.ok();
     }
 }

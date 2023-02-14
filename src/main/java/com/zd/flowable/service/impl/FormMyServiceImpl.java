@@ -1,6 +1,7 @@
 package com.zd.flowable.service.impl;
 
 import com.zd.flowable.entity.FormMy;
+import com.zd.flowable.entity.FormTemplates;
 import com.zd.flowable.model.FormMyProperty;
 import com.zd.flowable.model.Result;
 import com.zd.flowable.service.FormMyService;
@@ -51,5 +52,17 @@ public class FormMyServiceImpl implements FormMyService {
         nameJdbcTemplate.update("delete from form_my where form_my_id = :id", param);
 
         return Result.ok();
+    }
+
+    @Override
+    public Result updateFormMy(FormMyProperty formMyProperty) {
+        var entity = new FormMy();
+
+        BeanUtils.copyProperties(formMyProperty, entity);
+        entity.setUpdateTime(LocalDateTime.now());
+
+        nameJdbcTemplate.update(JdbcUtility.getUpdateSql(entity), JdbcUtility.getSqlParameterSource(entity));
+
+        return Result.ok().data(Constant.RESULT, entity);
     }
 }

@@ -12,4 +12,6 @@ public interface FormMyService {
     Result addFormMy(FormMyProperty formMyProperty);
 
     Result delFormMy(String id);
+
+    Result updateFormMy(FormMyProperty formMyProperty);
 }
