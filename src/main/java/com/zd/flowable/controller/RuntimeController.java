@@ -13,10 +13,7 @@ import org.flowable.ui.common.service.exception.BadRequestException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -177,5 +174,29 @@ public class RuntimeController {
             FileUpload.copyFile(in, PathUtil.getProjectPath(), name);            //把文件上传到文件目录里面
             in.close();
         }
+    }
+
+    /**
+     * 激活流程
+     *
+     * @param processInstanceId 实例编号
+     */
+    @PutMapping("/actives/{processInstanceId}")
+    public Result activateProcessDefinitionById(@PathVariable String processInstanceId) {
+        repositoryService.activateProcessDefinitionById(processInstanceId, true, null);
+
+        return Result.ok();
+    }
+
+    /**
+     * 挂起流程
+     *
+     * @param processInstanceId 实例编号
+     */
+    @PutMapping("/suspends/{processInstanceId}")
+    public Result suspendProcessDefinitionById(@PathVariable String processInstanceId) {
+        repositoryService.suspendProcessDefinitionById(processInstanceId, true, null);
+
+        return Result.ok();
     }
 }
