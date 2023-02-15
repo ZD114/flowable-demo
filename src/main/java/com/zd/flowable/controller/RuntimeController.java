@@ -18,9 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLDecoder;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 运行过程管理
@@ -231,4 +229,36 @@ public class RuntimeController {
 
         return Result.ok();
     }
+
+    /**
+     * 流程跟踪图片信息
+     *
+     * @param runtimeProperty
+     * @return
+     * @throws IOException
+     */
+    @PostMapping("/activePng")
+    public Result getActiveInputStream(@RequestBody RuntimeProperty runtimeProperty) throws IOException {
+        DelFileUtil.delFolder(PathUtil.getProjectPath());  //生成先清空之前生成的文件
+
+        var processInstanceId = runtimeProperty.getProcessInstanceId();//执行Id
+        var userName = runtimeProperty.getUserName();//当前用户
+        var fileName = runtimeProperty.getFileName();//文件名称
+        var hc = new HistoryController();
+        var in = hc.getModelJSON2(processInstanceId, userName);//获取活动流数据
+
+        FileUpload.copyFile(in, PathUtil.getProjectPath(), fileName); //把文件上传到文件目录里面
+        in.close();
+
+        var newFileName = URLDecoder.decode(fileName, "UTF-8");
+        var imgSrcPath = PathUtil.getProjectPath() + newFileName;
+        log.info("图片地址：{}", imgSrcPath);
+
+        var map = new HashMap<String, Object>();
+        map.put("imgSrc", "data:image/jpeg;base64," + Base64Utils.getImageStr(imgSrcPath)); //解决图片src中文乱码，把图片转成base64格式显示(这样就不用修改tomcat的配置了)
+
+        return Result.ok().data(map);
+    }
+
+
 }
