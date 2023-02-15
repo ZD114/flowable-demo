@@ -37,6 +37,21 @@ public class RuntimeProperty {
      */
     private String fileName;
 
+    /**
+     * 流程实例编号
+     */
+    private String processInstanceId;
+
+    /**
+     * 当前节点
+     */
+    private String nodeId;
+
+    /**
+     * 目的节点
+     */
+    private String toNodeId;
+
     public Map<String, Object> getMapVariables() {
         return mapVariables;
     }
@@ -83,5 +98,29 @@ public class RuntimeProperty {
 
     public void setFileName(String fileName) {
         this.fileName = fileName;
+    }
+
+    public String getProcessInstanceId() {
+        return processInstanceId;
+    }
+
+    public void setProcessInstanceId(String processInstanceId) {
+        this.processInstanceId = processInstanceId;
+    }
+
+    public String getNodeId() {
+        return nodeId;
+    }
+
+    public void setNodeId(String nodeId) {
+        this.nodeId = nodeId;
+    }
+
+    public String getToNodeId() {
+        return toNodeId;
+    }
+
+    public void setToNodeId(String toNodeId) {
+        this.toNodeId = toNodeId;
     }
 }

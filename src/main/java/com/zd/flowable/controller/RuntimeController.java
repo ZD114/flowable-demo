@@ -199,4 +199,36 @@ public class RuntimeController {
 
         return Result.ok();
     }
+
+    /**
+     * 节点跳转
+     *
+     * @param runtimeProperty
+     * @return
+     */
+    @PostMapping("/jump")
+    public Result moveActivityIdTo(@RequestBody RuntimeProperty runtimeProperty) {
+        var processInstanceId = runtimeProperty.getProcessInstanceId();
+        var nodeId = runtimeProperty.getNodeId();
+        var toNodeId = runtimeProperty.getToNodeId();
+
+        if (StringUtils.isBlank(processInstanceId)) {
+            return Result.error(ResultCodeEnum.NULL_ARGUMENT_ERROR);
+        }
+
+        if (StringUtils.isBlank(nodeId)) {
+            return Result.error(ResultCodeEnum.NULL_ARGUMENT_ERROR);
+        }
+
+        if (StringUtils.isBlank(toNodeId)) {
+            return Result.error(ResultCodeEnum.NULL_ARGUMENT_ERROR);
+        }
+
+        runtimeService.createChangeActivityStateBuilder()
+                .processInstanceId(processInstanceId)
+                .moveActivityIdTo(nodeId, toNodeId)
+                .changeState();
+
+        return Result.ok();
+    }
 }
