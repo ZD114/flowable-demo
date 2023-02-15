@@ -158,4 +158,36 @@ public class TaskController {
 
         return Result.ok();
     }
+
+    /**
+     * 候选人归还任务
+     *
+     * @param taskProperty
+     * @return
+     */
+    @PostMapping("/unClaimTask")
+    public Result unClaimTaskUser(@RequestBody TaskProperty taskProperty) {
+        var processInstanceId = taskProperty.getProcessInstanceId();//执行编号
+        var userId = taskProperty.getUserId();//候选用户编号
+
+        if (StringUtils.isBlank(processInstanceId)) {
+            return Result.error(ResultCodeEnum.NULL_ARGUMENT_ERROR);
+        }
+        if (StringUtils.isBlank(userId)) {
+            return Result.error(ResultCodeEnum.NULL_ARGUMENT_ERROR);
+        }
+
+        Task task = taskService.createTaskQuery()
+                .processInstanceId(processInstanceId)
+                .taskAssignee(userId)
+                .singleResult();
+
+        if (task != null) {
+            // 拾取对应的任务
+            taskService.unclaim(task.getId());
+            log.info("任务归还成功，归还人：{}", userId);
+        }
+
+        return Result.ok();
+    }
 }
