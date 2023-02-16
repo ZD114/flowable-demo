@@ -84,7 +84,7 @@ public class FormMyController {
         // 更新表单数据表中规则
         var result = formDataService.updateByFormMyId(formMyProperty);
 
-        if (!result.getSuccess()) {
+        if (Boolean.FALSE.equals(result.getSuccess())) {
             return Result.error(ResultCodeEnum.ERROR);
         }
 

@@ -20,7 +20,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * 表单数据操作
@@ -37,7 +36,7 @@ public class FormDataController {
     @Autowired
     private FormHangService formHangService;
 
-    private static final Logger log = LoggerFactory.getLogger(FormDataService.class);
+    private static final Logger log = LoggerFactory.getLogger(FormDataController.class);
 
     /**
      * 增加

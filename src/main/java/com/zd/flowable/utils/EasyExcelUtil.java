@@ -1,6 +1,6 @@
 package com.zd.flowable.utils;
 
-import com.alibaba.excel.EasyExcel;
+import com.alibaba.excel.EasyExcelFactory;
 import com.alibaba.excel.ExcelWriter;
 import com.alibaba.excel.context.AnalysisContext;
 import com.alibaba.excel.event.AnalysisEventListener;
@@ -8,6 +8,8 @@ import com.alibaba.excel.write.builder.ExcelWriterBuilder;
 import com.alibaba.excel.write.metadata.WriteSheet;
 import com.alibaba.excel.write.style.column.LongestMatchColumnWidthStyleStrategy;
 import com.zd.flowable.entity.FormTemplates;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
@@ -30,6 +32,10 @@ import java.util.zip.ZipOutputStream;
  **/
 public class EasyExcelUtil {
 
+    private static final Logger log = LoggerFactory.getLogger(EasyExcelUtil.class);
+
+    private EasyExcelUtil() {}
+
     /**
      * excel导出
      *
@@ -40,11 +46,11 @@ public class EasyExcelUtil {
     public static void downloadExcel(HttpServletResponse response, String fileName, List<?> list) {
         // 设置下载信息
         response.setContentType("application/vnd.ms-excel");
-        response.setCharacterEncoding("utf-8");
+        response.setCharacterEncoding(Constant.UTF8);
 
         try {
             response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8") + ".xlsx");
-            EasyExcel.write(response.getOutputStream(), FormTemplates.class).sheet(fileName).doWrite(list);
+            EasyExcelFactory.write(response.getOutputStream(), FormTemplates.class).sheet(fileName).doWrite(list);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -61,21 +67,21 @@ public class EasyExcelUtil {
      * @return
      * @throws IOException
      */
-    public static String uploadExcel(MultipartFile file, Class object) throws IOException {
+    public static String uploadExcel(MultipartFile file, Class<?> object) throws IOException {
         // 获取上传的文件流
         InputStream inputStream = file.getInputStream();
 
         // 读取Excel
-        EasyExcel.read(inputStream, object,
+        EasyExcelFactory.read(inputStream, object,
                 new AnalysisEventListener() {
                     @Override
                     public void invoke(Object o, AnalysisContext analysisContext) {
-                        System.out.println("解析数据为:" + o.toString());
+                        log.info("解析数据为:{}", o);
                     }
 
                     @Override
                     public void doAfterAllAnalysed(AnalysisContext analysisContext) {
-                        System.out.println("解析完成...");
+                        log.info("解析完成...");
                     }
                 }
         ).sheet().doRead();
@@ -112,12 +118,12 @@ public class EasyExcelUtil {
                 int fileIndex = 1;
 
                 ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-                ExcelWriterBuilder builder = EasyExcel.write(outputStream).autoCloseStream(false)
+                ExcelWriterBuilder builder = EasyExcelFactory.write(outputStream).autoCloseStream(false)
                         .registerWriteHandler(new LongestMatchColumnWidthStyleStrategy());
                 ExcelWriter excelWriter = builder.build();
 
                 zipOut.putNextEntry(new ZipEntry(String.format("%s-%d.xls", zipFilename, fileIndex)));
-                WriteSheet writeSheet = EasyExcel.writerSheet(zipFilename).head(header).build();
+                WriteSheet writeSheet = EasyExcelFactory.writerSheet(zipFilename).head(header).build();
                 exportData = supplier.get();
 
                 if (exportData == null) {
@@ -138,12 +144,12 @@ public class EasyExcelUtil {
                         //如果导出数据不为空则证明存在下一个excel文件，则在压缩包中新增一个excel文件
                         if (exportData != null) {
                             outputStream = new ByteArrayOutputStream();
-                            builder = EasyExcel.write(outputStream).autoCloseStream(false)
+                            builder = EasyExcelFactory.write(outputStream).autoCloseStream(false)
                                     // 自动适配
                                     .registerWriteHandler(new LongestMatchColumnWidthStyleStrategy());
                             excelWriter = builder.build();
                             zipOut.putNextEntry(new ZipEntry(String.format("%s-%d.xls", zipFilename, fileIndex)));
-                            writeSheet = EasyExcel.writerSheet(zipFilename).head(header).build();
+                            writeSheet = EasyExcelFactory.writerSheet(zipFilename).head(header).build();
                         }
                     }
                 }
@@ -157,7 +163,7 @@ public class EasyExcelUtil {
                 outputStream.writeTo(zipOut);
                 zipOut.closeEntry();
             } catch (IOException e) {
-                throw new RuntimeException("导出Excel异常", e);
+                throw new RuntimeException("导出excel异常", e);
             }
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException("导出excel异常");

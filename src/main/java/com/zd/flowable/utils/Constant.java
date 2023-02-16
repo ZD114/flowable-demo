@@ -14,6 +14,7 @@ public class Constant {
     public static final String ERROR = "error"; //返回失败标志
     public static final String FILEPATH = "static/"; //工作流生成XML和PNG目录
     public static final String RESULT = "result";
+    public static final String UTF8 = "utf-8";
 
     public static final String DEPLOYMENT_ID = "deploymentId"; //部署编号
 

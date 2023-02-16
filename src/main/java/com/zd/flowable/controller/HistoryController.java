@@ -61,7 +61,7 @@ public class HistoryController {
             processDefinitionId = pi.getProcessDefinitionId();
         }
 
-        var highLightedFlow = new StringBuffer();
+        var highLightedFlow = new StringBuilder();
         /* 获得活动的节点对象 */
         var highLightedActivityList = historyService.createHistoricActivityInstanceQuery().processInstanceId(processInstanceId).orderByHistoricActivityInstanceStartTime().asc().list();
         var highLightedActivities = new ArrayList<String>();                // 节点对象ID
@@ -95,11 +95,10 @@ public class HistoryController {
         }
 
         var diagramGenerator = engConf.getProcessDiagramGenerator();
-        var inr = diagramGenerator.generateDiagram(bpmnModel, "png", highLightedActivities, flows,
+
+        return diagramGenerator.generateDiagram(bpmnModel, "png", highLightedActivities, flows,
                 engConf.getActivityFontName(), engConf.getLabelFontName(), engConf.getAnnotationFontName(),
                 engConf.getClassLoader(), 1.0, true);
-
-        return inr;
     }
 
     /**

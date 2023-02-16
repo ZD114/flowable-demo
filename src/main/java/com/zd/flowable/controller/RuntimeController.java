@@ -125,7 +125,7 @@ public class RuntimeController {
 
         createXmlAndPng(deploymentId);
 
-        return Result.ok().data("code", FileUtil.readFileAllContent(URLDecoder.decode(fileName, "UTF-8")));
+        return Result.ok().data("code", FileUtil.readFileAllContent(URLDecoder.decode(fileName, Constant.UTF8)));
     }
 
     /**
