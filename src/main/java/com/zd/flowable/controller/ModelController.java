@@ -1,12 +1,10 @@
 package com.zd.flowable.controller;
 
+import com.zd.flowable.model.Result;
 import org.flowable.ui.modeler.model.ModelRepresentation;
 import org.flowable.ui.modeler.serviceapi.ModelService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 模型管理
@@ -30,6 +28,18 @@ public class ModelController {
     @GetMapping("/{modelId}")
     public ModelRepresentation getModel(@PathVariable String modelId) {
         return modelService.getModelRepresentation(modelId);
+    }
+
+    /**
+     * 删除模型
+     * @param modelId 模型编号
+     * @return
+     */
+    @DeleteMapping("/{modelId}")
+    public Result deleteModel(@PathVariable String modelId) {
+        modelService.deleteModel(modelId);
+
+        return Result.ok();
     }
 
 }
