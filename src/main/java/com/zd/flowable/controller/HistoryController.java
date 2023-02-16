@@ -8,9 +8,7 @@ import org.flowable.engine.history.HistoricProcessInstance;
 import org.flowable.engine.runtime.ActivityInstance;
 import org.flowable.ui.modeler.domain.Model;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -20,6 +18,8 @@ import java.util.Date;
  * @author zhangda
  * @date: 2023/2/15
  **/
+@RestController
+@RequestMapping("/history")
 public class HistoryController {
 
     @Autowired
