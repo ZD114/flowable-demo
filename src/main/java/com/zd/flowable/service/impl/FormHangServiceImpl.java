@@ -41,7 +41,7 @@ public class FormHangServiceImpl implements FormHangService {
 
             BeanUtils.copyProperties(formDataId, entity, Constant.FORM_HANG_ID);
 
-            entity.setFormHangId(UuidUtil.get32UUID());
+            entity.setId(UuidUtil.get32UUID());
             entity.setCreateTime(now);
             entity.setUpdateTime(now);
 
@@ -57,7 +57,7 @@ public class FormHangServiceImpl implements FormHangService {
 
         param.put("id", id);
 
-        nameJdbcTemplate.update("delete from form_hang where form_hang_id = :id", param);
+        nameJdbcTemplate.update("delete from form_hang where id = :id", param);
 
         return Result.ok();
     }
@@ -68,7 +68,7 @@ public class FormHangServiceImpl implements FormHangService {
 
         param.put("id", formDataId);
 
-        nameJdbcTemplate.update("delete from form_hang where form_data_id = :id", param);
+        nameJdbcTemplate.update("delete from form_hang where id = :id", param);
 
         return Result.ok();
     }
@@ -101,7 +101,7 @@ public class FormHangServiceImpl implements FormHangService {
 
         param.put("id", id);
 
-        return nameJdbcTemplate.queryForObject("select * from form_hang where form_hang_id = :id", param, FormHang.class);
+        return nameJdbcTemplate.queryForObject("select * from form_hang where id = :id", param, FormHang.class);
     }
 
     @Override
@@ -110,13 +110,13 @@ public class FormHangServiceImpl implements FormHangService {
 
         for (int i = 0; i < ids.size(); i++) {
             FormHang fh = new FormHang();
-            fh.setFormHangId(ids.get(i));
+            fh.setId(ids.get(i));
             list.add(fh);
         }
 
         SqlParameterSource[] batch = SqlParameterSourceUtils.createBatch(list);
 
-        nameJdbcTemplate.batchUpdate("DELETE FROM form_hang WHERE form_hang_id = :formHangId", batch);
+        nameJdbcTemplate.batchUpdate("DELETE FROM form_hang WHERE id = :formHangId", batch);
 
         return Result.ok();
     }

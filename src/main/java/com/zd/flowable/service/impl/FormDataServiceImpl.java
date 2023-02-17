@@ -38,7 +38,7 @@ public class FormDataServiceImpl implements FormDataService {
 
         BeanUtils.copyProperties(formDataProperty, entity, Constant.FORM_DATA_ID);
 
-        entity.setFormDataId(UuidUtil.get32UUID());
+        entity.setId(UuidUtil.get32UUID());
         entity.setUpdateTime(now);
         entity.setCreateTime(now);
 
@@ -71,7 +71,7 @@ public class FormDataServiceImpl implements FormDataService {
 
         param.put("id", formDataId);
 
-        nameJdbcTemplate.update("DELETE FROM form_data WHERE form_data_id = :id", param);
+        nameJdbcTemplate.update("DELETE FROM form_data WHERE id = :id", param);
 
         return Result.ok();
     }
@@ -82,7 +82,7 @@ public class FormDataServiceImpl implements FormDataService {
 
         param.put("id", formDataId);
 
-        return nameJdbcTemplate.queryForObject("select * from form_data where form_data_id = :id", param, FormData.class);
+        return nameJdbcTemplate.queryForObject("select * from form_data where id = :id", param, FormData.class);
     }
 
     @Override
@@ -115,15 +115,15 @@ public class FormDataServiceImpl implements FormDataService {
 
         for (int i = 0; i < realIds.length; i++) {
             FormData fd = new FormData();
-            fd.setFormDataId(realIds[i]);
+            fd.setId(realIds[i]);
             list.add(fd);
         }
 
         SqlParameterSource[] batch = SqlParameterSourceUtils.createBatch(list);
 
         // 批量删除挂靠记录和数据
-        nameJdbcTemplate.batchUpdate("DELETE FROM form_hang WHERE form_data_id = :formDataId", batch);
-        nameJdbcTemplate.batchUpdate("DELETE FROM form_data WHERE form_data_id = :formDataId", batch);
+        nameJdbcTemplate.batchUpdate("DELETE FROM form_hang WHERE id = :formDataId", batch);
+        nameJdbcTemplate.batchUpdate("DELETE FROM form_data WHERE id = :formDataId", batch);
 
         return Result.ok();
     }
@@ -147,7 +147,7 @@ public class FormDataServiceImpl implements FormDataService {
 
         var sql = new StringBuilder("update form_data set is_image = :isImage, is_file = :isFile, ");
         sql.append("is_fwb = :isFwb, is_lc = :isLc, data_private = :dataPrivate, update_time = updateTime ");
-        sql.append("where my_form_id = :formMyId");
+        sql.append("where id = :formMyId");
 
         nameJdbcTemplate.update(sql.toString(), param);
 

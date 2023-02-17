@@ -10,7 +10,7 @@ public class FormData {
     /**
      * 表单数据编号
      */
-    private String formDataId;
+    private String id;
 
     /**
      * 表单标签
@@ -83,12 +83,12 @@ public class FormData {
      */
     private LocalDateTime updateTime;
 
-    public String getFormDataId() {
-        return formDataId;
+    public String getId() {
+        return id;
     }
 
-    public void setFormDataId(String formDataId) {
-        this.formDataId = formDataId;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getTitle() {

@@ -12,7 +12,7 @@ public class FormTemplatesProperty {
     /**
      * 模板编号
      */
-    private String formTemplatesId;
+    private String id;
 
     /**
      * 模板名称
@@ -39,12 +39,12 @@ public class FormTemplatesProperty {
      */
     private LocalDateTime updateTime;
 
-    public String getFormTemplatesId() {
-        return formTemplatesId;
+    public String getId() {
+        return id;
     }
 
-    public void setFormTemplatesId(String formTemplatesId) {
-        this.formTemplatesId = formTemplatesId;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getTitle() {

@@ -11,7 +11,7 @@ public class FormHangProperty {
     /**
      * 挂靠编号
      */
-    private String formHangId;
+    private String id;
 
     /**
      * 流程实例编号
@@ -43,12 +43,12 @@ public class FormHangProperty {
      */
     private LocalDateTime updateTime;
 
-    public String getFormHangId() {
-        return formHangId;
+    public String getId() {
+        return id;
     }
 
-    public void setFormHangId(String formHangId) {
-        this.formHangId = formHangId;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getProcessInstanceId() {

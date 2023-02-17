@@ -11,7 +11,7 @@ public class FormMyProperty {
     /**
      * 我的表单编号
      */
-    private String formMyId;
+    private String id;
 
     /**
      * 表单名称
@@ -72,12 +72,12 @@ public class FormMyProperty {
      */
     private LocalDateTime updateTime;
 
-    public String getFormMyId() {
-        return formMyId;
+    public String getId() {
+        return id;
     }
 
-    public void setFormMyId(String formMyId) {
-        this.formMyId = formMyId;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getTitle() {

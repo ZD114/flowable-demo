@@ -38,7 +38,7 @@ public class FormMyServiceImpl implements FormMyService {
 
         BeanUtils.copyProperties(formMyProperty, entity, Constant.FORM_MY_ID);
 
-        entity.setFormMyId(UuidUtil.get32UUID());
+        entity.setId(UuidUtil.get32UUID());
         entity.setCreateTime(now);
         entity.setUpdateTime(now);
 
@@ -54,7 +54,7 @@ public class FormMyServiceImpl implements FormMyService {
 
         param.put("id", id);
 
-        nameJdbcTemplate.update("delete from form_my where form_my_id = :id", param);
+        nameJdbcTemplate.update("delete from form_my where id = :id", param);
 
         return Result.ok();
     }
@@ -87,7 +87,7 @@ public class FormMyServiceImpl implements FormMyService {
 
         param.put("id", id);
 
-        return nameJdbcTemplate.queryForObject("select * from form_my where form_my_id = :id", param, FormMy.class);
+        return nameJdbcTemplate.queryForObject("select * from form_my where id = :id", param, FormMy.class);
     }
 
     @Override
@@ -96,13 +96,13 @@ public class FormMyServiceImpl implements FormMyService {
 
         for (int i = 0; i < ids.size(); i++) {
             FormMy fm = new FormMy();
-            fm.setFormMyId(ids.get(i));
+            fm.setId(ids.get(i));
             list.add(fm);
         }
 
         SqlParameterSource[] batch = SqlParameterSourceUtils.createBatch(list);
 
-        nameJdbcTemplate.batchUpdate("DELETE FROM form_my WHERE form_my_id = :formMyId", batch);
+        nameJdbcTemplate.batchUpdate("DELETE FROM form_my WHERE id = :formMyId", batch);
 
         return Result.ok();
     }

@@ -11,7 +11,7 @@ public class FormDataProperty {
     /**
      * 表单数据编号
      */
-    private String formDataId;
+    private String id;
 
     /**
      * 表单标签
@@ -156,12 +156,12 @@ public class FormDataProperty {
         this.isFile = isFile;
     }
 
-    public String getFormDataId() {
-        return formDataId;
+    public String getId() {
+        return id;
     }
 
-    public void setFormDataId(String formDataId) {
-        this.formDataId = formDataId;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getMyFormId() {

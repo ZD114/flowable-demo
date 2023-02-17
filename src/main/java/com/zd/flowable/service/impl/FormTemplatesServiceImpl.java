@@ -39,7 +39,7 @@ public class FormTemplatesServiceImpl implements FormTemplatesService {
 
         BeanUtils.copyProperties(templateProperty, entity, Constant.FORM_TEMPLATES_ID);
 
-        entity.setFormTemplatesId(UuidUtil.get32UUID());
+        entity.setId(UuidUtil.get32UUID());
         entity.setCreateTime(now);
         entity.setUpdateTime(now);
 
@@ -56,7 +56,7 @@ public class FormTemplatesServiceImpl implements FormTemplatesService {
 
         param.put("id", id);
 
-        nameJdbcTemplate.update("delete from form_templates where form_templates_id = :id", param);
+        nameJdbcTemplate.update("delete from form_templates where id = :id", param);
 
         return Result.ok();
     }
@@ -89,7 +89,7 @@ public class FormTemplatesServiceImpl implements FormTemplatesService {
 
         param.put("id", id);
 
-        var formTemplate = nameJdbcTemplate.query("select * from form_templates where form_templates_id = :id", param, new BeanPropertyRowMapper<>(FormTemplates.class));
+        var formTemplate = nameJdbcTemplate.query("select * from form_templates where id = :id", param, new BeanPropertyRowMapper<>(FormTemplates.class));
 
         return new RestResult<>(true, "200", "", formTemplate.get(0));
     }
@@ -101,13 +101,13 @@ public class FormTemplatesServiceImpl implements FormTemplatesService {
 
         for (int i = 0; i < ids.length; i++) {
             FormTemplates ft = new FormTemplates();
-            ft.setFormTemplatesId(ids[i]);
+            ft.setId(ids[i]);
             list.add(ft);
         }
 
         SqlParameterSource[] batch = SqlParameterSourceUtils.createBatch(list);
 
-        nameJdbcTemplate.batchUpdate("DELETE FROM form_templates WHERE form_templates_id = :formTemplatesId", batch);
+        nameJdbcTemplate.batchUpdate("DELETE FROM form_templates WHERE id = :formTemplatesId", batch);
 
         return Result.ok();
     }
