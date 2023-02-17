@@ -1,6 +1,7 @@
 package com.zd.flowable.controller;
 
 import com.zd.flowable.model.Result;
+import org.flowable.ui.common.service.exception.ConflictingRequestException;
 import org.flowable.ui.modeler.model.ModelRepresentation;
 import org.flowable.ui.modeler.service.FlowableModelQueryService;
 import org.flowable.ui.modeler.serviceapi.ModelService;
@@ -49,7 +50,6 @@ public class ModelController {
         return Result.ok();
     }
 
-
     /**
      * 导入模型文件
      *
@@ -60,5 +60,32 @@ public class ModelController {
     @PostMapping("/import")
     public ModelRepresentation importProcessModel(HttpServletRequest request, @RequestParam("file") MultipartFile file) {
         return modelQueryService.importProcessModel(request, file);
+    }
+
+    /**
+     * 创建模型
+     *
+     * @param modelRepresentation
+     * @return
+     */
+    @PostMapping("/{userId}")
+    public ModelRepresentation createModel(@RequestBody ModelRepresentation modelRepresentation, @PathVariable String userId) {
+        modelRepresentation.setKey(modelRepresentation.getKey().replace(" ", ""));
+
+        checkForDuplicateKey(modelRepresentation);
+
+        var json = modelService.createModelJson(modelRepresentation);
+        var newModel = modelService.createModel(modelRepresentation, json, userId);
+
+        return new ModelRepresentation(newModel);
+    }
+
+    public void checkForDuplicateKey(ModelRepresentation modelRepresentation) {
+        var modelKeyInfo = modelService.validateModelKey(null, modelRepresentation.getModelType(), modelRepresentation.getKey());
+
+        if (modelKeyInfo.isKeyAlreadyExists()) {
+            throw new ConflictingRequestException("Provided model key already exists: " + modelRepresentation.getKey());
+        }
+
     }
 }
