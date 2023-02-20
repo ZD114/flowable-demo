@@ -143,7 +143,7 @@ public class FormDataServiceImpl implements FormDataService {
         param.put("isLc", formMyProperty.getIsLc());
         param.put("dataPrivate", formMyProperty.getDataPrivate());
         param.put("updateTime", LocalDateTime.now());
-        param.put("formMyId", formMyProperty.getFormMyId());
+        param.put("formMyId", formMyProperty.getId());
 
         var sql = new StringBuilder("update form_data set is_image = :isImage, is_file = :isFile, ");
         sql.append("is_fwb = :isFwb, is_lc = :isLc, data_private = :dataPrivate, update_time = updateTime ");

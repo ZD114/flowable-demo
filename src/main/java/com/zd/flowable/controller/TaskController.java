@@ -1,6 +1,5 @@
 package com.zd.flowable.controller;
 
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.zd.flowable.model.Result;
 import com.zd.flowable.model.ResultCodeEnum;
 import com.zd.flowable.model.TaskProperty;
@@ -10,9 +9,7 @@ import org.flowable.form.api.FormInfo;
 import org.flowable.form.model.FormField;
 import org.flowable.form.model.SimpleFormModel;
 import org.flowable.task.api.Task;
-import org.flowable.ui.common.model.ResultListDataRepresentation;
 import org.flowable.ui.common.service.exception.BadRequestException;
-import org.flowable.ui.task.service.runtime.FlowableTaskQueryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,9 +33,7 @@ public class TaskController {
     private static final String EXCEPTION_MSG3 = "userId are required parameters";
 
     @Autowired
-    protected TaskService taskService;
-    @Autowired
-    protected FlowableTaskQueryService taskQueryService;
+    private TaskService taskService;
 
     /**
      * 根据任务编号完成任务
@@ -196,14 +191,5 @@ public class TaskController {
         return Result.ok();
     }
 
-    /**
-     * 查询任务列表
-     *
-     * @param requestNode
-     * @return
-     */
-    @PostMapping("/tasks")
-    public ResultListDataRepresentation listTasks(@RequestBody ObjectNode requestNode) {
-        return taskQueryService.listTasks(requestNode);
-    }
+
 }
