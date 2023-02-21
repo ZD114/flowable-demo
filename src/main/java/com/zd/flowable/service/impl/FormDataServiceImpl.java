@@ -1,5 +1,6 @@
 package com.zd.flowable.service.impl;
 
+import com.zd.flowable.common.RestResult;
 import com.zd.flowable.entity.FormData;
 import com.zd.flowable.model.FormDataProperty;
 import com.zd.flowable.model.FormMyProperty;
@@ -77,12 +78,18 @@ public class FormDataServiceImpl implements FormDataService {
     }
 
     @Override
-    public FormData findFormDataById(String formDataId) {
+    public RestResult<FormData> findFormDataById(String formDataId) {
         var param = new HashMap<String, Object>();
 
         param.put("id", formDataId);
 
-        return nameJdbcTemplate.queryForObject("select * from form_data where id = :id", param, FormData.class);
+        var formData = nameJdbcTemplate.query("select * from form_data where id = :id", param, new BeanPropertyRowMapper<>(FormData.class));
+
+        if (formData.size() == 0) {
+            return new RestResult<>(true, "200", "", null);
+        }
+
+        return new RestResult<>(true, "200", "", formData.get(0));
     }
 
     @Override

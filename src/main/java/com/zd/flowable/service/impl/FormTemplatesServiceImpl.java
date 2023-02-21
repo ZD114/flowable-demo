@@ -86,6 +86,10 @@ public class FormTemplatesServiceImpl implements FormTemplatesService {
 
         var formTemplate = nameJdbcTemplate.query("select * from form_templates where id = :id", param, new BeanPropertyRowMapper<>(FormTemplates.class));
 
+        if (formTemplate.size() == 0) {
+            return new RestResult<>(true, "200", "", null);
+        }
+
         return new RestResult<>(true, "200", "", formTemplate.get(0));
     }
 

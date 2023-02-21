@@ -1,5 +1,6 @@
 package com.zd.flowable.service;
 
+import com.zd.flowable.common.RestResult;
 import com.zd.flowable.entity.FormHang;
 import com.zd.flowable.model.FormHangProperty;
 import com.zd.flowable.model.Result;
@@ -24,7 +25,7 @@ public interface FormHangService {
 
     List<FormHang> searchPageList(String sql, Map<String, Object> params);
 
-    FormHang findFormHangById(String id);
+    RestResult<FormHang> findFormHangById(String id);
 
     Result delBatch(List<String> ids);
 

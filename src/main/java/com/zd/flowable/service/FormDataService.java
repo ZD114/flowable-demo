@@ -1,5 +1,6 @@
 package com.zd.flowable.service;
 
+import com.zd.flowable.common.RestResult;
 import com.zd.flowable.entity.FormData;
 import com.zd.flowable.model.FormDataProperty;
 import com.zd.flowable.model.FormMyProperty;
@@ -22,7 +23,7 @@ public interface FormDataService {
 
     Result delFormData(String formDataId);
 
-    FormData findFormDataById(String formDataId);
+    RestResult<FormData> findFormDataById(String formDataId);
 
     Result updateFormData(FormDataProperty formDataProperty);
 

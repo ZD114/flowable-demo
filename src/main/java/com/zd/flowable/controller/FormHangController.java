@@ -1,6 +1,7 @@
 package com.zd.flowable.controller;
 
 import com.zd.flowable.common.PageResult;
+import com.zd.flowable.common.RestResult;
 import com.zd.flowable.entity.FormHang;
 import com.zd.flowable.model.FormHangProperty;
 import com.zd.flowable.model.FormHangSearchParam;
@@ -125,7 +126,7 @@ public class FormHangController {
      * @return
      */
     @GetMapping("/{id}")
-    public FormHang findFormHangById(@PathVariable String id) {
+    public RestResult<FormHang> findFormHangById(@PathVariable String id) {
         return formHangService.findFormHangById(id);
     }
 

@@ -1,6 +1,7 @@
 package com.zd.flowable.controller;
 
 import com.zd.flowable.common.PageResult;
+import com.zd.flowable.common.RestResult;
 import com.zd.flowable.entity.FormMy;
 import com.zd.flowable.model.FormMyProperty;
 import com.zd.flowable.model.FormMySearchParam;
@@ -170,7 +171,7 @@ public class FormMyController {
      * @return
      */
     @GetMapping("/{id}")
-    public FormMy findFormMyById(@PathVariable String id) {
+    public RestResult<FormMy> findFormMyById(@PathVariable String id) {
         return formMyService.findFormMyById(id);
     }
 

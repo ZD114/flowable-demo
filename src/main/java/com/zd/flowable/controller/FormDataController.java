@@ -1,6 +1,7 @@
 package com.zd.flowable.controller;
 
 import com.zd.flowable.common.PageResult;
+import com.zd.flowable.common.RestResult;
 import com.zd.flowable.entity.FormData;
 import com.zd.flowable.model.FormDataProperty;
 import com.zd.flowable.model.FormDataSearchParam;
@@ -93,7 +94,8 @@ public class FormDataController {
     @DeleteMapping("/delFile/{formDataId}")
     public Result delFile(@PathVariable String formDataId) {
 
-        var entity = formDataService.findFormDataById(formDataId);
+        var value = formDataService.findFormDataById(formDataId);
+        var entity = value.getResult();
 
         if (entity != null && StringUtils.isNotBlank(entity.getFilePath())) {
             DelFileUtil.delFolder(PathUtil.getProjectPath() + entity.getFilePath().trim());
@@ -184,7 +186,7 @@ public class FormDataController {
      * @return
      */
     @GetMapping("/{id}")
-    public FormData findFormDataById(@PathVariable String id) {
+    public RestResult<FormData> findFormDataById(@PathVariable String id) {
         return formDataService.findFormDataById(id);
     }
 

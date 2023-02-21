@@ -1,5 +1,6 @@
 package com.zd.flowable.service.impl;
 
+import com.zd.flowable.common.RestResult;
 import com.zd.flowable.entity.FormMy;
 import com.zd.flowable.model.FormMyProperty;
 import com.zd.flowable.model.Result;
@@ -77,12 +78,18 @@ public class FormMyServiceImpl implements FormMyService {
     }
 
     @Override
-    public FormMy findFormMyById(String id) {
+    public RestResult<FormMy> findFormMyById(String id) {
         var param = new HashMap<String, Object>();
 
         param.put("id", id);
 
-        return nameJdbcTemplate.queryForObject("select * from form_my where id = :id", param, FormMy.class);
+        var formMy = nameJdbcTemplate.query("select * from form_templates where id = :id", param, new BeanPropertyRowMapper<>(FormMy.class));
+
+        if (formMy.size() == 0) {
+            return new RestResult<>(true, "200", "", null);
+        }
+
+        return new RestResult<>(true, "200", "", formMy.get(0));
     }
 
     @Override

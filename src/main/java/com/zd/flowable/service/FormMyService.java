@@ -1,5 +1,6 @@
 package com.zd.flowable.service;
 
+import com.zd.flowable.common.RestResult;
 import com.zd.flowable.entity.FormMy;
 import com.zd.flowable.model.FormMyProperty;
 import com.zd.flowable.model.Result;
@@ -21,7 +22,7 @@ public interface FormMyService {
 
     List<FormMy> searchPageList(String sql, Map<String, Object> params);
 
-    FormMy findFormMyById(String id);
+    RestResult<FormMy> findFormMyById(String id);
 
     Result delBatchFormMy(List<String> ids);
 

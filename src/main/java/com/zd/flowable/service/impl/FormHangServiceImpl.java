@@ -1,5 +1,6 @@
 package com.zd.flowable.service.impl;
 
+import com.zd.flowable.common.RestResult;
 import com.zd.flowable.entity.FormHang;
 import com.zd.flowable.model.FormHangProperty;
 import com.zd.flowable.model.Result;
@@ -91,12 +92,18 @@ public class FormHangServiceImpl implements FormHangService {
     }
 
     @Override
-    public FormHang findFormHangById(String id) {
+    public RestResult<FormHang> findFormHangById(String id) {
         var param = new HashMap<String, Object>();
 
         param.put("id", id);
 
-        return nameJdbcTemplate.queryForObject("select * from form_hang where id = :id", param, FormHang.class);
+        var formHang = nameJdbcTemplate.query("select * from form_hang where id = :id", param, new BeanPropertyRowMapper<>(FormHang.class));
+
+        if (formHang.size() == 0) {
+            return new RestResult<>(true, "200", "", null);
+        }
+
+        return new RestResult<>(true, "200", "", formHang.get(0));
     }
 
     @Override
