@@ -20,8 +20,6 @@ public interface FormTemplatesService {
 
     Result updateTemplate(FormTemplatesProperty templateProperty);
 
-    Integer countTemplate(String sql, Map<String, Object> params);
-
     List<FormTemplates> searchPageList(String sql, Map<String, Object> params);
 
     RestResult<FormTemplates> findTemplateById(String id);

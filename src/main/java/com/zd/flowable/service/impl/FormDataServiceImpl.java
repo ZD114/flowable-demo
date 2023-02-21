@@ -99,11 +99,6 @@ public class FormDataServiceImpl implements FormDataService {
     }
 
     @Override
-    public Integer countFormData(String sql, Map<String, Object> params) {
-        return nameJdbcTemplate.queryForObject(sql, params, Integer.class);
-    }
-
-    @Override
     public List<FormData> searchPageList(String sql, Map<String, Object> params) {
         return nameJdbcTemplate.query(sql, params, new BeanPropertyRowMapper<>(FormData.class));
     }
@@ -126,11 +121,6 @@ public class FormDataServiceImpl implements FormDataService {
         nameJdbcTemplate.batchUpdate("DELETE FROM form_data WHERE id = :formDataId", batch);
 
         return Result.ok();
-    }
-
-    @Override
-    public List<FormData> queryAll() {
-        return nameJdbcTemplate.query("select * from form_data", new BeanPropertyRowMapper<>(FormData.class));
     }
 
     @Override

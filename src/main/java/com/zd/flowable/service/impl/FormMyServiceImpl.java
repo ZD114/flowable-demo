@@ -72,11 +72,6 @@ public class FormMyServiceImpl implements FormMyService {
     }
 
     @Override
-    public Integer countFormMy(String sql, Map<String, Object> params) {
-        return nameJdbcTemplate.queryForObject(sql, params, Integer.class);
-    }
-
-    @Override
     public List<FormMy> searchPageList(String sql, Map<String, Object> params) {
         return nameJdbcTemplate.query(sql, params, new BeanPropertyRowMapper<>(FormMy.class));
     }

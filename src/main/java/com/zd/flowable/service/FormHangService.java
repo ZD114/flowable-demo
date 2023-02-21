@@ -24,8 +24,6 @@ public interface FormHangService {
 
     List<FormHang> searchPageList(String sql, Map<String, Object> params);
 
-    Integer countFormHang(String sql, Map<String, Object> params);
-
     FormHang findFormHangById(String id);
 
     Result delBatch(List<String> ids);

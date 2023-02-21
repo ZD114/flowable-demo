@@ -74,11 +74,6 @@ public class FormTemplatesServiceImpl implements FormTemplatesService {
     }
 
     @Override
-    public Integer countTemplate(String sql, Map<String, Object> params) {
-        return nameJdbcTemplate.queryForObject(sql, params, Integer.class);
-    }
-
-    @Override
     public List<FormTemplates> searchPageList(String sql, Map<String, Object> params) {
         return nameJdbcTemplate.query(sql, params, new BeanPropertyRowMapper<>(FormTemplates.class));
     }

@@ -26,13 +26,9 @@ public interface FormDataService {
 
     Result updateFormData(FormDataProperty formDataProperty);
 
-    Integer countFormData(String sql, Map<String, Object> params);
-
     List<FormData> searchPageList(String sql, Map<String, Object> params);
 
     Result delBatchFormData(String ids);
-
-    List<FormData> queryAll();
 
     Result updateByFormMyId(FormMyProperty formMyProperty);
 }
