@@ -88,7 +88,7 @@ public class FormTemplatesController {
 
         }
 
-        var sqlCount = new StringBuilder("SELECT COUNT(1) FROM( " + sql + " GROUP BY form_templates_id ) eq");
+        var sqlCount = new StringBuilder("SELECT COUNT(1) FROM( " + sql + " GROUP BY id ) eq");
 
         var totalCount = formTemplateService.countTemplate(sqlCount.toString(), params);
 
@@ -96,7 +96,7 @@ public class FormTemplatesController {
             var start = searchParam.getPageIndex() == 0 ? 0
                     : (searchParam.getPageIndex() - 1) * searchParam.getPageSize();
 
-            sql.append(" GROUP BY form_templates_id ORDER BY form_templates_id DESC LIMIT :start,:pageSize ");
+            sql.append(" GROUP BY id ORDER BY id DESC LIMIT :start,:pageSize ");
             params.put("start", start);
             params.put("pageSize", searchParam.getPageSize());
 
