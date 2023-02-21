@@ -6,6 +6,7 @@ import com.zd.flowable.model.FormMyProperty;
 import com.zd.flowable.model.FormMySearchParam;
 import com.zd.flowable.model.Result;
 import com.zd.flowable.model.ResultCodeEnum;
+import com.zd.flowable.service.FormCommonService;
 import com.zd.flowable.service.FormDataService;
 import com.zd.flowable.service.FormMyService;
 import com.zd.flowable.service.FormTemplatesService;
@@ -36,6 +37,8 @@ public class FormMyController {
     private FormTemplatesService formTemplatesService;
     @Autowired
     private FormDataService formDataService;
+    @Autowired
+    private FormCommonService formCommonService;
 
     private static final Logger log = LoggerFactory.getLogger(FormMyController.class);
 
@@ -136,7 +139,7 @@ public class FormMyController {
         }
         var sqlCount = new StringBuilder("SELECT COUNT(1) FROM( " + sql + " GROUP BY id ) eq");
 
-        var totalCount = formMyService.countFormMy(sqlCount.toString(), params);
+        var totalCount = formCommonService.countForm(sqlCount.toString(), params);
 
         log.info("我的表单总数量：{}", totalCount);
 

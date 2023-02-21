@@ -5,6 +5,7 @@ import com.zd.flowable.entity.FormData;
 import com.zd.flowable.model.FormDataProperty;
 import com.zd.flowable.model.FormDataSearchParam;
 import com.zd.flowable.model.Result;
+import com.zd.flowable.service.FormCommonService;
 import com.zd.flowable.service.FormDataService;
 import com.zd.flowable.service.FormHangService;
 import com.zd.flowable.utils.DelFileUtil;
@@ -35,6 +36,8 @@ public class FormDataController {
     private FormDataService formDataService;
     @Autowired
     private FormHangService formHangService;
+    @Autowired
+    private FormCommonService formCommonService;
 
     private static final Logger log = LoggerFactory.getLogger(FormDataController.class);
 
@@ -150,7 +153,7 @@ public class FormDataController {
 
         var sqlCount = new StringBuilder("SELECT COUNT(1) FROM( " + sql + " GROUP BY id ) eq");
 
-        var totalCount = formDataService.countFormData(sqlCount.toString(), params);
+        var totalCount = formCommonService.countForm(sqlCount.toString(), params);
 
         log.info("总数量：{}", totalCount);
 

@@ -6,6 +6,7 @@ import com.zd.flowable.entity.FormTemplates;
 import com.zd.flowable.model.FormTemplatesProperty;
 import com.zd.flowable.model.FormTemplatesSearchParam;
 import com.zd.flowable.model.Result;
+import com.zd.flowable.service.FormCommonService;
 import com.zd.flowable.service.FormTemplatesService;
 import com.zd.flowable.utils.EasyExcelUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -27,6 +28,8 @@ public class FormTemplatesController {
 
     @Autowired
     private FormTemplatesService formTemplateService;
+    @Autowired
+    private FormCommonService formCommonService;
 
     /**
      * 保存表单模板
@@ -90,7 +93,7 @@ public class FormTemplatesController {
 
         var sqlCount = new StringBuilder("SELECT COUNT(1) FROM( " + sql + " GROUP BY id ) eq");
 
-        var totalCount = formTemplateService.countTemplate(sqlCount.toString(), params);
+        var totalCount = formCommonService.countForm(sqlCount.toString(), params);
 
         if (totalCount > 0) {
             var start = searchParam.getPageIndex() == 0 ? 0

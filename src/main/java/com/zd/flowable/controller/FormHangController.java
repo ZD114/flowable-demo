@@ -5,6 +5,7 @@ import com.zd.flowable.entity.FormHang;
 import com.zd.flowable.model.FormHangProperty;
 import com.zd.flowable.model.FormHangSearchParam;
 import com.zd.flowable.model.Result;
+import com.zd.flowable.service.FormCommonService;
 import com.zd.flowable.service.FormHangService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -27,6 +28,8 @@ public class FormHangController {
 
     @Autowired
     private FormHangService formHangService;
+    @Autowired
+    private FormCommonService formCommonService;
 
     private static final Logger log = LoggerFactory.getLogger(FormHangController.class);
 
@@ -91,7 +94,7 @@ public class FormHangController {
 
         var sqlCount = new StringBuilder("SELECT COUNT(1) FROM( " + sql + " GROUP BY id ) eq");
 
-        var totalCount = formHangService.countFormHang(sqlCount.toString(), params);
+        var totalCount = formCommonService.countForm(sqlCount.toString(), params);
 
         log.info("挂靠总数量：{}", totalCount);
 
