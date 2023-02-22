@@ -104,7 +104,7 @@ public class FormMyServiceImpl implements FormMyService {
 
         SqlParameterSource[] batch = SqlParameterSourceUtils.createBatch(list);
 
-        nameJdbcTemplate.batchUpdate("DELETE FROM form_my WHERE id = :formMyId", batch);
+        nameJdbcTemplate.batchUpdate("DELETE FROM form_my WHERE id = :id", batch);
 
         return Result.ok();
     }

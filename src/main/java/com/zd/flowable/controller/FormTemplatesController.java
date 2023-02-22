@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * 自定义表单模板
@@ -128,12 +129,12 @@ public class FormTemplatesController {
     /**
      * 批量删除模板
      *
-     * @param id 模板编号列表
+     * @param ids 模板编号列表
      * @return
      */
     @PostMapping("/delBatch")
-    public Result delTemplateBatch(@RequestBody String id) {
-        return formTemplateService.delTemplateBatch(id);
+    public Result delTemplateBatch(@RequestBody List<String> ids) {
+        return formTemplateService.delTemplateBatch(ids);
     }
 
     /**

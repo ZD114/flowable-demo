@@ -118,7 +118,7 @@ public class FormHangServiceImpl implements FormHangService {
 
         SqlParameterSource[] batch = SqlParameterSourceUtils.createBatch(list);
 
-        nameJdbcTemplate.batchUpdate("DELETE FROM form_hang WHERE id = :formHangId", batch);
+        nameJdbcTemplate.batchUpdate("DELETE FROM form_hang WHERE id = :id", batch);
 
         return Result.ok();
     }

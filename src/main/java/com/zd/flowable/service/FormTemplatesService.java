@@ -4,6 +4,7 @@ import com.zd.flowable.common.RestResult;
 import com.zd.flowable.entity.FormTemplates;
 import com.zd.flowable.model.FormTemplatesProperty;
 import com.zd.flowable.model.Result;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.Map;
@@ -24,7 +25,7 @@ public interface FormTemplatesService {
 
     RestResult<FormTemplates> findTemplateById(String id);
 
-    Result delTemplateBatch(String id);
+    Result delTemplateBatch(@RequestBody List<String> ids);
 
     List<FormTemplates> queryAll();
 }

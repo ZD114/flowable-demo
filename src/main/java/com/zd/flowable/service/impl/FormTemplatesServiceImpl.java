@@ -94,19 +94,18 @@ public class FormTemplatesServiceImpl implements FormTemplatesService {
     }
 
     @Override
-    public Result delTemplateBatch(String id) {
+    public Result delTemplateBatch(List<String> ids) {
         List<FormTemplates> list = new ArrayList<>();
-        var ids = id.split(",");
 
-        for (int i = 0; i < ids.length; i++) {
+        for (int i = 0; i < ids.size(); i++) {
             FormTemplates ft = new FormTemplates();
-            ft.setId(ids[i]);
+            ft.setId(ids.get(i));
             list.add(ft);
         }
 
         SqlParameterSource[] batch = SqlParameterSourceUtils.createBatch(list);
 
-        nameJdbcTemplate.batchUpdate("DELETE FROM form_templates WHERE id = :formTemplatesId", batch);
+        nameJdbcTemplate.batchUpdate("DELETE FROM form_templates WHERE id = :id", batch);
 
         return Result.ok();
     }
