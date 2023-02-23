@@ -11,6 +11,7 @@ import com.zd.flowable.service.FormCommonService;
 import com.zd.flowable.service.FormDataService;
 import com.zd.flowable.service.FormMyService;
 import com.zd.flowable.service.FormTemplatesService;
+import com.zd.flowable.utils.Constant;
 import com.zd.flowable.utils.EasyExcelUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -189,11 +190,10 @@ public class FormMyController {
     /**
      * 导出excel
      *
-     * @param fileName 文件名称
      * @param response
      */
     @GetMapping("/download")
-    public void downloadExcel(@RequestParam("fileName") String fileName, HttpServletResponse response) {
-        EasyExcelUtil.downloadExcel(response, fileName, formMyService.queryAll(), FormMy.class);
+    public void downloadExcel(HttpServletResponse response) {
+        EasyExcelUtil.downloadExcel(response, Constant.MY_FORM, formMyService.queryAll(), FormMy.class);
     }
 }

@@ -42,7 +42,8 @@ public class EasyExcelUtil {
      * @param fileName
      * @param list
      */
-    public static void downloadExcel(HttpServletResponse response, String fileName, List<?> list, Class<?> object) {
+    public static void
+            downloadExcel(HttpServletResponse response, String fileName, List<?> list, Class<?> object) {
         // 设置下载信息
         response.setContentType("application/vnd.ms-excel");
         response.setCharacterEncoding(Constant.UTF8);

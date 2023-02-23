@@ -1,5 +1,7 @@
 package com.zd.flowable.entity;
 
+import com.alibaba.excel.annotation.ExcelProperty;
+
 import java.time.LocalDateTime;
 
 /**
@@ -11,51 +13,61 @@ public class FormMy {
     /**
      * 我的表单编号
      */
+    @ExcelProperty(value = "我的表单编号", index = 0)
     private String id;
 
     /**
      * 表单名称
      */
+    @ExcelProperty(value = "我的表单名称", index = 1)
     private String title;
 
     /**
      * 表单内容
      */
+    @ExcelProperty(value = "我的表单内容", index = 2)
     private String htmlContent;
 
     /**
      * 表单类型
      */
+    @ExcelProperty(value = "我的表单类型", index = 3)
     private String type;
 
     /**
      * 创建者
      */
+    @ExcelProperty(value = "创建者", index = 4)
     private String userName;
 
     /**
      * 是否私有
      */
+    @ExcelProperty(value = "是否私有", index = 5)
     private int isPrivate;
 
     /**
      * 是否上传图片（0否，1是）
      */
+    @ExcelProperty(value = "是否上传图片（0否，1是）", index = 6)
     private int isImage;
 
     /**
      * 是否上传附件（0否，1是）
      */
+    @ExcelProperty(value = "是否上传附件（0否，1是）", index = 7)
     private int isFile;
 
     /**
      * 数据私有
      */
+    @ExcelProperty(value = "数据私有", index = 8)
     private String dataPrivate;
 
     /**
      * 表单模板编号
      */
+    @ExcelProperty(value = "表单模板编号", index = 9)
     private String formTemplatesId;
 
     private int isLc;

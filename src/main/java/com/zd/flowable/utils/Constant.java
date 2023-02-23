@@ -25,5 +25,7 @@ public class Constant {
     public static final String FORM_DATA_ID = "formDataId"; //表单数据编号
     public static final String FORM_HANG_ID = "formHangId"; //表单挂靠编号
     public static final String FORM_MY_ID = "formMyId"; //我的表单编号
+    public static final String FORM_TEMPLATES = "formTemplates"; //表单模板
+    public static final String MY_FORM = "myForm"; //我的表单
 
 }

@@ -8,6 +8,7 @@ import com.zd.flowable.model.FormTemplatesSearchParam;
 import com.zd.flowable.model.Result;
 import com.zd.flowable.service.FormCommonService;
 import com.zd.flowable.service.FormTemplatesService;
+import com.zd.flowable.utils.Constant;
 import com.zd.flowable.utils.EasyExcelUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -140,11 +141,10 @@ public class FormTemplatesController {
     /**
      * 导出excel
      *
-     * @param fileName 文件名称
      * @param response
      */
     @GetMapping("/download")
-    public void downloadExcel(@RequestParam("fileName") String fileName, HttpServletResponse response) {
-        EasyExcelUtil.downloadExcel(response, fileName, formTemplateService.queryAll(), FormTemplates.class);
+    public void downloadExcel(HttpServletResponse response) {
+        EasyExcelUtil.downloadExcel(response, Constant.FORM_TEMPLATES, formTemplateService.queryAll(), FormTemplates.class);
     }
 }
