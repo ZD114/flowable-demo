@@ -11,7 +11,6 @@ import com.zd.flowable.utils.UuidUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSourceUtils;
 import org.springframework.stereotype.Service;
 
@@ -94,15 +93,15 @@ public class FormMyServiceImpl implements FormMyService {
 
     @Override
     public Result delBatchFormMy(List<String> ids) {
-        List<FormMy> list = new ArrayList<>();
+        var list = new ArrayList<FormMy>();
 
         for (int i = 0; i < ids.size(); i++) {
-            FormMy fm = new FormMy();
+            var fm = new FormMy();
             fm.setId(ids.get(i));
             list.add(fm);
         }
 
-        SqlParameterSource[] batch = SqlParameterSourceUtils.createBatch(list);
+        var batch = SqlParameterSourceUtils.createBatch(list);
 
         nameJdbcTemplate.batchUpdate("DELETE FROM form_my WHERE id = :id", batch);
 

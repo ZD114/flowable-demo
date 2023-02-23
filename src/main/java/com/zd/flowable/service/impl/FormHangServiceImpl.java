@@ -11,7 +11,6 @@ import com.zd.flowable.utils.UuidUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSourceUtils;
 import org.springframework.stereotype.Service;
 
@@ -108,15 +107,15 @@ public class FormHangServiceImpl implements FormHangService {
 
     @Override
     public Result delBatch(List<String> ids) {
-        List<FormHang> list = new ArrayList<>();
+        var list = new ArrayList<FormHang>();
 
         for (int i = 0; i < ids.size(); i++) {
-            FormHang fh = new FormHang();
+            var fh = new FormHang();
             fh.setId(ids.get(i));
             list.add(fh);
         }
 
-        SqlParameterSource[] batch = SqlParameterSourceUtils.createBatch(list);
+        var batch = SqlParameterSourceUtils.createBatch(list);
 
         nameJdbcTemplate.batchUpdate("DELETE FROM form_hang WHERE id = :id", batch);
 

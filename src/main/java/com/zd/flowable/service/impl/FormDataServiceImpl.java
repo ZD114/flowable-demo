@@ -10,7 +10,6 @@ import com.zd.flowable.utils.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSourceUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -112,16 +111,16 @@ public class FormDataServiceImpl implements FormDataService {
 
     @Override
     public Result delBatchFormData(String ids) {
-        List<FormData> list = new ArrayList<>();
+        var list = new ArrayList<FormData>();
         var realIds = ids.split(",");
 
         for (int i = 0; i < realIds.length; i++) {
-            FormData fd = new FormData();
+            var fd = new FormData();
             fd.setId(realIds[i]);
             list.add(fd);
         }
 
-        SqlParameterSource[] batch = SqlParameterSourceUtils.createBatch(list);
+        var batch = SqlParameterSourceUtils.createBatch(list);
 
         // 批量删除挂靠记录和数据
         nameJdbcTemplate.batchUpdate("DELETE FROM form_hang WHERE id = :id", batch);
