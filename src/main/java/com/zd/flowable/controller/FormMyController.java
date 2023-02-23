@@ -194,6 +194,6 @@ public class FormMyController {
      */
     @GetMapping("/download")
     public void downloadExcel(@RequestParam("fileName") String fileName, HttpServletResponse response) {
-        EasyExcelUtil.downloadExcel(response, fileName, formMyService.queryAll());
+        EasyExcelUtil.downloadExcel(response, fileName, formMyService.queryAll(), FormMy.class);
     }
 }

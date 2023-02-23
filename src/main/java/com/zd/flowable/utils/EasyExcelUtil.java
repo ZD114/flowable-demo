@@ -7,7 +7,6 @@ import com.alibaba.excel.event.AnalysisEventListener;
 import com.alibaba.excel.write.builder.ExcelWriterBuilder;
 import com.alibaba.excel.write.metadata.WriteSheet;
 import com.alibaba.excel.write.style.column.LongestMatchColumnWidthStyleStrategy;
-import com.zd.flowable.entity.FormTemplates;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
@@ -43,14 +42,14 @@ public class EasyExcelUtil {
      * @param fileName
      * @param list
      */
-    public static void downloadExcel(HttpServletResponse response, String fileName, List<?> list) {
+    public static void downloadExcel(HttpServletResponse response, String fileName, List<?> list, Class<?> object) {
         // 设置下载信息
         response.setContentType("application/vnd.ms-excel");
         response.setCharacterEncoding(Constant.UTF8);
 
         try {
-            response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8") + ".xlsx");
-            EasyExcelFactory.write(response.getOutputStream(), FormTemplates.class).sheet(fileName).doWrite(list);
+            response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, Constant.UTF8) + ".xlsx");
+            EasyExcelFactory.write(response.getOutputStream(), object).sheet(fileName).doWrite(list);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -107,7 +106,7 @@ public class EasyExcelUtil {
         }
         try {
             // 这里URLEncoder.encode可以防止中文乱码
-            String downFileName = URLEncoder.encode(zipFilename, "utf-8");
+            String downFileName = URLEncoder.encode(zipFilename, Constant.UTF8);
             response.setHeader("Content-disposition", "attachment;filename*=utf-8''" + downFileName + ".zip");
             response.setContentType("application/x-msdownload");
             response.setCharacterEncoding("utf-8");
