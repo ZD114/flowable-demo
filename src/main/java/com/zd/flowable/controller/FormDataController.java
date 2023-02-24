@@ -9,6 +9,7 @@ import com.zd.flowable.model.Result;
 import com.zd.flowable.service.FormCommonService;
 import com.zd.flowable.service.FormDataService;
 import com.zd.flowable.service.FormHangService;
+import com.zd.flowable.utils.Constant;
 import com.zd.flowable.utils.DelFileUtil;
 import com.zd.flowable.utils.FileDownload;
 import com.zd.flowable.utils.PathUtil;
@@ -17,6 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -61,7 +63,7 @@ public class FormDataController {
      * @return
      */
     @PostMapping("/upload")
-    public Result uploadFile(@RequestParam("file") MultipartFile file, FormDataProperty formDataProperty) {
+    public Result uploadFile(@RequestPart("file") MultipartFile file, @RequestPart @Validated FormDataProperty formDataProperty) {
         return formDataService.uploadFile(file, formDataProperty);
     }
 
@@ -69,14 +71,16 @@ public class FormDataController {
      * 删除
      *
      * @param formDataId 表单数据编号
-     * @param filePath   附件路径
      * @return
      */
     @DeleteMapping("")
-    public Result delFormData(@RequestParam("formDataId") String formDataId, @RequestParam("filePath") String filePath) {
+    public Result delFormData(@RequestParam("formDataId") String formDataId) {
+
+        var formData = formDataService.findFormDataById(formDataId);
+        var filePath = formData.getResult().getFilePath();
 
         if (StringUtils.isNotBlank(filePath)) {
-            DelFileUtil.delFolder(PathUtil.getProjectPath() + filePath.trim());
+            DelFileUtil.delFolder(System.getProperty(Constant.DIR) + filePath.trim());
         }
 
         formHangService.delHangByFormDataId(formDataId);
@@ -98,7 +102,7 @@ public class FormDataController {
         var entity = value.getResult();
 
         if (entity != null && StringUtils.isNotBlank(entity.getFilePath())) {
-            DelFileUtil.delFolder(PathUtil.getProjectPath() + entity.getFilePath().trim());
+            DelFileUtil.delFolder(System.getProperty(Constant.DIR) + entity.getFilePath().trim());
             entity.setFilePath("");
 
             FormDataProperty formDataProperty = new FormDataProperty();

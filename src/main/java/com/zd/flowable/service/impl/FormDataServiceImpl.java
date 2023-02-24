@@ -50,15 +50,14 @@ public class FormDataServiceImpl implements FormDataService {
 
     @Override
     public Result uploadFile(MultipartFile file, FormDataProperty formDataProperty) {
-        var pathDate = LocalDateTime.now().toString();
-        var filePath = PathUtil.getProjectPath() + Constant.FILE_PATH + pathDate;    //文件上传路径
-        var fileName = FileUpload.fileUp(file, filePath, UuidUtil.get32UUID());                //执行上传
+        var filePath = System.getProperty(Constant.DIR) + Constant.FILE_PATH;    //文件上传路径
+        var fileName = FileUpload.fileUp(file, filePath);                //执行上传
 
         var entity = new FormData();
         BeanUtils.copyProperties(formDataProperty, entity);
 
         entity.setUpdateTime(LocalDateTime.now());
-        entity.setFilePath(Constant.FILE_PATH + pathDate + "/" + fileName);
+        entity.setFilePath(Constant.FILE_PATH + fileName);
 
         nameJdbcTemplate.update(JdbcUtility.getUpdateSql(entity), JdbcUtility.getSqlParameterSource(entity));
 

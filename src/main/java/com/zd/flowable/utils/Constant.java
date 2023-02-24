@@ -18,7 +18,8 @@ public class Constant {
 
     public static final String DEPLOYMENT_ID = "deploymentId"; //部署编号
 
-    public static final String FILE_PATH = "uploadFiles/file/";					//文件上传路径
+    public static final String FILE_PATH = "\\files\\";					//文件上传路径
+    public static final String DIR = "user.dir";
 
     /***************************************表单常量*****************************************/
     public static final String FORM_TEMPLATES_ID = "formTemplatesId"; //表单模板编号

@@ -26,25 +26,26 @@ public class FileUpload {
      *
      * @param file     //文件对象
      * @param filePath //上传路径
-     * @param fileName //文件名
      * @return 文件名
      */
-    public static String fileUp(MultipartFile file, String filePath, String fileName) {
-        String extName = ""; // 扩展名格式：
+    public static String fileUp(MultipartFile file, String filePath) {
         String realFileName = file.getOriginalFilename();
         if (realFileName == null) {
             throw new NullPointerException("file name is null");
         }
         try {
-            if (realFileName.lastIndexOf(".") >= 0) {
-                extName = realFileName.substring(realFileName.lastIndexOf("."));
+
+            File tempFile = new File(filePath);
+            if (!tempFile.exists()){
+                tempFile.mkdirs();
             }
-            String realName = copyFile(file.getInputStream(), filePath, fileName + extName).replace("-", "");
+
+            String realName = copyFile(file.getInputStream(), filePath, realFileName).replace("-", "");
             logger.info("文件名：{}", realName);
         } catch (IOException e) {
             logger.error("file not exists", e);
         }
-        return fileName + extName;
+        return realFileName;
     }
 
     /**
