@@ -39,14 +39,14 @@ public class FormHangServiceImpl implements FormHangService {
             var entity = new FormHang();
             var now = LocalDateTime.now();
 
-            BeanUtils.copyProperties(formDataId, entity, Constant.FORM_HANG_ID);
+            BeanUtils.copyProperties(formDataId, entity, Constant.ID);
 
             entity.setId(UuidUtil.get32UUID());
             entity.setCreateTime(now);
             entity.setUpdateTime(now);
 
-            nameJdbcTemplate.update(JdbcUtility.getInsertSql(entity, true, Constant.FORM_HANG_ID),
-                    JdbcUtility.getSqlParameterSource(entity, Constant.FORM_HANG_ID));
+            nameJdbcTemplate.update(JdbcUtility.getInsertSql(entity, true, Constant.ID),
+                    JdbcUtility.getSqlParameterSource(entity, Constant.ID));
         }
         return null;
     }

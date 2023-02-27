@@ -36,14 +36,14 @@ public class FormMyServiceImpl implements FormMyService {
         var entity = new FormMy();
         var now = LocalDateTime.now();
 
-        BeanUtils.copyProperties(formMyProperty, entity, Constant.FORM_MY_ID);
+        BeanUtils.copyProperties(formMyProperty, entity, Constant.ID);
 
         entity.setId(UuidUtil.get32UUID());
         entity.setCreateTime(now);
         entity.setUpdateTime(now);
 
-        nameJdbcTemplate.update(JdbcUtility.getInsertSql(entity, true, Constant.FORM_MY_ID),
-                JdbcUtility.getSqlParameterSource(entity, Constant.FORM_MY_ID));
+        nameJdbcTemplate.update(JdbcUtility.getInsertSql(entity, true, Constant.ID),
+                JdbcUtility.getSqlParameterSource(entity, Constant.ID));
 
         return Result.ok().data(Constant.RESULT, entity);
     }

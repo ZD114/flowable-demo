@@ -36,14 +36,14 @@ public class FormTemplatesServiceImpl implements FormTemplatesService {
         var entity = new FormTemplates();
         var now = LocalDateTime.now();
 
-        BeanUtils.copyProperties(templateProperty, entity, Constant.FORM_TEMPLATES_ID);
+        BeanUtils.copyProperties(templateProperty, entity, Constant.ID);
 
         entity.setId(UuidUtil.get32UUID());
         entity.setCreateTime(now);
         entity.setUpdateTime(now);
 
-        nameJdbcTemplate.update(JdbcUtility.getInsertSql(entity, true, Constant.FORM_TEMPLATES_ID),
-                JdbcUtility.getSqlParameterSource(entity, Constant.FORM_TEMPLATES_ID));
+        nameJdbcTemplate.update(JdbcUtility.getInsertSql(entity, true, Constant.ID),
+                JdbcUtility.getSqlParameterSource(entity, Constant.ID));
 
         return Result.ok().data(Constant.RESULT, entity);
     }

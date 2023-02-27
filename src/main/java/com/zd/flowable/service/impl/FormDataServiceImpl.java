@@ -36,14 +36,14 @@ public class FormDataServiceImpl implements FormDataService {
         var entity = new FormData();
         var now = LocalDateTime.now();
 
-        BeanUtils.copyProperties(formDataProperty, entity, Constant.FORM_DATA_ID);
+        BeanUtils.copyProperties(formDataProperty, entity, Constant.ID);
 
         entity.setId(UuidUtil.get32UUID());
         entity.setUpdateTime(now);
         entity.setCreateTime(now);
 
-        nameJdbcTemplate.update(JdbcUtility.getInsertSql(entity, true, Constant.FORM_DATA_ID),
-                JdbcUtility.getSqlParameterSource(entity, Constant.FORM_DATA_ID));
+        nameJdbcTemplate.update(JdbcUtility.getInsertSql(entity, true, Constant.ID),
+                JdbcUtility.getSqlParameterSource(entity, Constant.ID));
 
         return Result.ok().data(Constant.RESULT, entity);
     }
