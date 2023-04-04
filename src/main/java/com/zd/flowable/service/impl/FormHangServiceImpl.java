@@ -49,6 +49,8 @@ public class FormHangServiceImpl implements FormHangService {
             entity.setCreateTime(now);
             entity.setUpdateTime(now);
 
+            dataList.add(entity);
+
             nameJdbcTemplate.update(JdbcUtility.getInsertSql(entity, true, Constant.ID),
                     JdbcUtility.getSqlParameterSource(entity, Constant.ID));
         }
