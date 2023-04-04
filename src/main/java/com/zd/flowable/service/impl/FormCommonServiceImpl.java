@@ -1,10 +1,9 @@
 package com.zd.flowable.service.impl;
 
 import com.zd.flowable.service.FormCommonService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
 import java.util.Map;
 
 /**
@@ -15,7 +14,7 @@ import java.util.Map;
 @Service
 public class FormCommonServiceImpl implements FormCommonService {
 
-    @Resource
+    @Autowired
     private NamedParameterJdbcTemplate nameJdbcTemplate;
 
     @Override

@@ -9,12 +9,12 @@ import com.zd.flowable.utils.Constant;
 import com.zd.flowable.utils.JdbcUtility;
 import com.zd.flowable.utils.UuidUtil;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSourceUtils;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,7 +28,7 @@ import java.util.Map;
 @Service
 public class FormMyServiceImpl implements FormMyService {
 
-    @Resource
+    @Autowired
     private NamedParameterJdbcTemplate nameJdbcTemplate;
 
     @Override

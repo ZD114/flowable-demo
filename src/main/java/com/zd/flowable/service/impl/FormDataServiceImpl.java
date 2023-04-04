@@ -8,13 +8,13 @@ import com.zd.flowable.model.Result;
 import com.zd.flowable.service.FormDataService;
 import com.zd.flowable.utils.*;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSourceUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,7 +28,7 @@ import java.util.Map;
 @Service
 public class FormDataServiceImpl implements FormDataService {
 
-    @Resource
+    @Autowired
     private NamedParameterJdbcTemplate nameJdbcTemplate;
 
     @Override
