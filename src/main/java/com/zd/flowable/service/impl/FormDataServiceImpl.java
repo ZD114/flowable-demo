@@ -141,7 +141,7 @@ public class FormDataServiceImpl implements FormDataService {
         param.put("formMyId", formMyProperty.getId());
 
         var sql = new StringBuilder("update form_data set is_image = :isImage, is_file = :isFile, ");
-        sql.append("is_fwb = :isFwb, is_lc = :isLc, data_private = :dataPrivate, update_time = updateTime ");
+        sql.append("is_fwb = :isFwb, is_lc = :isLc, data_private = :dataPrivate, update_time = :updateTime ");
         sql.append("where id = :formMyId");
 
         nameJdbcTemplate.update(sql.toString(), param);
