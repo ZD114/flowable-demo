@@ -82,7 +82,7 @@ public class FormMyServiceImpl implements FormMyService {
 
         param.put("id", id);
 
-        var formMy = nameJdbcTemplate.query("select * from form_templates where id = :id", param, new BeanPropertyRowMapper<>(FormMy.class));
+        var formMy = nameJdbcTemplate.query("select * from form_my where id = :id", param, new BeanPropertyRowMapper<>(FormMy.class));
 
         if (formMy.size() == 0) {
             return new RestResult<>(true, "200", "", null);
