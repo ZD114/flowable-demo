@@ -1,0 +1,6 @@
+{
+  "outPath": "api-file",
+  "packageFilters":"com.zd.flowable.*",
+  "debugEnvName":"本地环境",
+  "replace": false
+}
