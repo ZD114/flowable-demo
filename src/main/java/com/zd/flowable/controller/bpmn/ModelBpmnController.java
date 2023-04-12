@@ -1,7 +1,6 @@
 package com.zd.flowable.controller.bpmn;
 
 import com.zd.flowable.model.Result;
-import com.zd.flowable.utils.Constant;
 import org.flowable.ui.modeler.rest.app.AbstractModelBpmnResource;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,10 +29,8 @@ public class ModelBpmnController extends AbstractModelBpmnResource {
      * @throws IOException
      */
     @GetMapping("/{modelId}")
-    public Result getProcessModelBpmn20Xml(@PathVariable String modelId, HttpServletResponse response) throws IOException {
+    public void getProcessModelBpmn20Xml(@PathVariable String modelId, HttpServletResponse response) throws IOException {
         super.getProcessModelBpmn20Xml(response, modelId);
-
-        return Result.ok();
     }
 
 }
