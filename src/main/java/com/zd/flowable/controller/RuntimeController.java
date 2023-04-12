@@ -47,9 +47,10 @@ public class RuntimeController {
     @PostMapping("")
     public Result startProcess(@RequestBody RuntimeProperty runtimeProperty) {
         ProcessInstance processInstance = null;//流程实例对象
-        String processDefinitionId = runtimeProperty.getProcessDefinitionId();//过程实例ID参数
-        Map<String, Object> mapVariables = runtimeProperty.getMapVariables();//map参数
-        String businessKey = runtimeProperty.getBusinessKey();//业务key
+
+        var processDefinitionId = runtimeProperty.getProcessDefinitionId();//过程实例ID参数
+        var mapVariables = runtimeProperty.getMapVariables();//map参数
+        var businessKey = runtimeProperty.getBusinessKey();//业务key
 
         if (StringUtils.isBlank(processDefinitionId)) { // 若定义ID不存在
             throw new BadRequestException("过程定义编号必须！");
@@ -57,7 +58,7 @@ public class RuntimeController {
 
         log.info("业务key: {},定义key: {}", businessKey, processDefinitionId);
 
-        String userName = runtimeProperty.getUserName();
+        var userName = runtimeProperty.getUserName();
 
         if (StringUtils.isBlank(userName)) {
             userName = "";
@@ -98,15 +99,15 @@ public class RuntimeController {
      */
     @PostMapping("/form")
     public Result formStart(@RequestBody RuntimeProperty runtimeProperty) {
-        String processDefinitionId = runtimeProperty.getProcessDefinitionId();//过程实例ID参数
-        Map<String, Object> mapVariables = runtimeProperty.getMapVariables();//map参数
-        String businessKey = runtimeProperty.getBusinessKey();//业务key
+        var processDefinitionId = runtimeProperty.getProcessDefinitionId();//过程实例ID参数
+        var mapVariables = runtimeProperty.getMapVariables();//map参数
+        var businessKey = runtimeProperty.getBusinessKey();//业务key
 
         if (StringUtils.isBlank(processDefinitionId)) { // 若定义ID不存在
             throw new BadRequestException(EXCEPTION_MSG);
         }
 
-        ProcessInstance processInstance = runtimeService.startProcessInstanceWithForm(processDefinitionId, "", mapVariables, businessKey);
+        var processInstance = runtimeService.startProcessInstanceWithForm(processDefinitionId, "", mapVariables, businessKey);
 
         return Result.ok().data("processInstanceId", processInstance.getId());
     }
@@ -120,8 +121,8 @@ public class RuntimeController {
      */
     @PostMapping("/xml")
     public Result getViewXml(@RequestBody RuntimeProperty runtimeProperty) throws IOException {
-        String deploymentId = runtimeProperty.getDeploymentId();
-        String fileName = runtimeProperty.getFileName();
+        var deploymentId = runtimeProperty.getDeploymentId();
+        var fileName = runtimeProperty.getFileName();
 
         createXmlAndPng(deploymentId);
 
@@ -137,16 +138,16 @@ public class RuntimeController {
      */
     @PostMapping(value = "/png")
     public Result getViewPng(@RequestBody RuntimeProperty runtimeProperty) {
-        String deploymentId = runtimeProperty.getDeploymentId();
-        String fileName = runtimeProperty.getFileName();
+        var deploymentId = runtimeProperty.getDeploymentId();
+        var fileName = runtimeProperty.getFileName();
 
-        Map<String, Object> map = new HashMap<>();
+        var map = new HashMap<String, Object>();
 
         try {
             createXmlAndPng(deploymentId);//生成XML和PNG
 
-            String newFileName = URLDecoder.decode(fileName, "UTF-8");
-            String imgSrcPath = PathUtil.getProjectPath() + newFileName;
+            var newFileName = URLDecoder.decode(fileName, "UTF-8");
+            var imgSrcPath = PathUtil.getProjectPath() + newFileName;
 
             map.put("imgSrc", "data:image/jpeg;base64," + Base64Utils.getImageStr(imgSrcPath)); //解决图片src中文乱码，把图片转成base64格式显示(这样就不用修改tomcat的配置了)
 
@@ -165,7 +166,8 @@ public class RuntimeController {
      */
     protected void createXmlAndPng(String deploymentId) throws IOException {
         DelFileUtil.delFolder(PathUtil.getProjectPath());            //生成先清空之前生成的文件
-        List<String> names = repositoryService.getDeploymentResourceNames(deploymentId);
+        var names = repositoryService.getDeploymentResourceNames(deploymentId);
+
         for (String name : names) {
             if (name.indexOf("zip") != -1) continue;
             InputStream in = repositoryService.getResourceAsStream(deploymentId, name);

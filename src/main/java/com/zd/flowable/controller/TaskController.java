@@ -5,7 +5,6 @@ import com.zd.flowable.model.ResultCodeEnum;
 import com.zd.flowable.model.TaskProperty;
 import org.apache.commons.lang3.StringUtils;
 import org.flowable.engine.TaskService;
-import org.flowable.form.api.FormInfo;
 import org.flowable.form.model.FormField;
 import org.flowable.form.model.SimpleFormModel;
 import org.flowable.task.api.Task;
@@ -16,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * 任务管理
@@ -43,9 +41,9 @@ public class TaskController {
      */
     @PostMapping("")
     public Result completeTask(@RequestBody TaskProperty taskProperty) {
-        String taskId = taskProperty.getTaskId();//任务编号
+        var taskId = taskProperty.getTaskId();//任务编号
 
-        String assignee = taskProperty.getUserId();// 用户
+        var assignee = taskProperty.getUserId();// 用户
 
         log.info("任务编号：{}", taskId);
 
@@ -56,7 +54,7 @@ public class TaskController {
             throw new BadRequestException(EXCEPTION_MSG3);
         }
 
-        Map<String, Object> mapVariables = taskProperty.getMapVariables();//参数对象
+        var mapVariables = taskProperty.getMapVariables();//参数对象
         if (mapVariables == null) {//不带参启动
             taskService.complete(taskId);
         } else {
@@ -87,9 +85,9 @@ public class TaskController {
      */
     @PostMapping("/form")
     public Result completeForm(@RequestBody TaskProperty taskProperty) {
-        String taskId = taskProperty.getTaskId();
-        String formDefinitionId = taskProperty.getFormDefinitionId();
-        Map<String, Object> mapVariables = taskProperty.getMapVariables();//参数对象
+        var taskId = taskProperty.getTaskId();
+        var formDefinitionId = taskProperty.getFormDefinitionId();
+        var mapVariables = taskProperty.getMapVariables();//参数对象
 
         taskService.completeTaskWithForm(taskId, formDefinitionId, "", mapVariables);
 
@@ -104,8 +102,8 @@ public class TaskController {
      */
     @GetMapping("/form/{taskId}")
     public List<FormField> taskFormDataGet(@PathVariable String taskId) {
-        FormInfo taskFormModel = taskService.getTaskFormModel(taskId);
-        SimpleFormModel formModel = (SimpleFormModel) taskFormModel.getFormModel();
+        var taskFormModel = taskService.getTaskFormModel(taskId);
+        var formModel = (SimpleFormModel) taskFormModel.getFormModel();
 
         return formModel.getFields();
     }

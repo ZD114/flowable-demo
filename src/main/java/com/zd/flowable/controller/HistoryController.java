@@ -4,7 +4,6 @@ import com.zd.flowable.model.Result;
 import org.flowable.bpmn.constants.BpmnXMLConstants;
 import org.flowable.engine.*;
 import org.flowable.engine.history.HistoricActivityInstance;
-import org.flowable.engine.history.HistoricProcessInstance;
 import org.flowable.engine.runtime.ActivityInstance;
 import org.flowable.ui.modeler.domain.Model;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -109,7 +108,7 @@ public class HistoryController {
      */
     @GetMapping("/getInitiator")
     public Result getInitiator(@RequestParam String processInstanceId) {
-        HistoricProcessInstance hi = historyService.createHistoricProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();    //获取历史流程实例
+        var hi = historyService.createHistoricProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();    //获取历史流程实例
 
         return Result.ok().data("userId", hi.getStartUserId());
     }

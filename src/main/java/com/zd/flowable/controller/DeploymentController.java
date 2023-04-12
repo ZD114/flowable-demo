@@ -4,14 +4,8 @@ import com.zd.flowable.model.DeploymentProperty;
 import com.zd.flowable.model.Result;
 import com.zd.flowable.utils.Constant;
 import org.apache.commons.lang3.StringUtils;
-import org.flowable.bpmn.model.BpmnModel;
 import org.flowable.engine.RepositoryService;
-import org.flowable.engine.repository.Deployment;
-import org.flowable.engine.repository.DeploymentBuilder;
-import org.flowable.engine.repository.ProcessDefinition;
-import org.flowable.form.api.FormDeployment;
 import org.flowable.form.api.FormRepositoryService;
-import org.flowable.ui.modeler.domain.Model;
 import org.flowable.ui.modeler.serviceapi.ModelService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,15 +49,15 @@ public class DeploymentController {
      */
     @PostMapping("/modelId")
     public Result deploymentById(@RequestBody DeploymentProperty deploymentProperty) {
-        String modelId = deploymentProperty.getModelId();
+        var modelId = deploymentProperty.getModelId();
 
-        Model model = modelService.getModel(modelId);
-        BpmnModel bpmnModel = modelService.getBpmnModel(model);
+        var model = modelService.getModel(modelId);
+        var bpmnModel = modelService.getBpmnModel(model);
 
-        Deployment deployment = repositoryService.createDeployment()
+        var deployment = repositoryService.createDeployment()
                 .name(model.getName())
                 .addBpmnModel(model.getKey() + ".bpmn", bpmnModel).deploy();
-        ProcessDefinition processDefinition = repositoryService.createProcessDefinitionQuery()
+        var processDefinition = repositoryService.createProcessDefinitionQuery()
                 .deploymentId(deployment.getId())
                 .singleResult();
 
@@ -80,11 +74,11 @@ public class DeploymentController {
      */
     @PostMapping("/classpath")
     public Result deploymentProcessDefinitionFromClasspath(@RequestBody DeploymentProperty deploymentProperty) {
-        String name = deploymentProperty.getName();
-        String xmlPath = deploymentProperty.getXmlPath();
-        String pngPath = deploymentProperty.getPngPath();
+        var name = deploymentProperty.getName();
+        var xmlPath = deploymentProperty.getXmlPath();
+        var pngPath = deploymentProperty.getPngPath();
 
-        DeploymentBuilder deploymentBuilder = repositoryService.createDeployment();        //创建部署对象
+        var deploymentBuilder = repositoryService.createDeployment();        //创建部署对象
         deploymentBuilder.name(name);                        //部署名称
 
         if (StringUtils.isNotBlank(xmlPath)) {
@@ -94,7 +88,7 @@ public class DeploymentController {
             deploymentBuilder.addClasspathResource(pngPath);    //从文件中读取png资源
         }
 
-        Deployment deployment = deploymentBuilder.deploy();    //完成部署
+        var deployment = deploymentBuilder.deploy();    //完成部署
 
         return Result.ok().data(Constant.DEPLOYMENT_ID, deployment.getId());  //部署ID
     }
@@ -108,21 +102,21 @@ public class DeploymentController {
      */
     @PostMapping("/zip")
     public Result deploymentProcessDefinitionFromZip(@RequestBody DeploymentProperty deploymentProperty) throws IOException {
-        String name = deploymentProperty.getName();
-        String zipPath = deploymentProperty.getZipPath();
-        String tenantId = deploymentProperty.getTenantId();
+        var name = deploymentProperty.getName();
+        var zipPath = deploymentProperty.getZipPath();
+        var tenantId = deploymentProperty.getTenantId();
 
-        File outfile = new File(zipPath);
-        FileInputStream inputStream = new FileInputStream(outfile);
-        ZipInputStream ipInputStream = new ZipInputStream(inputStream);
+        var outfile = new File(zipPath);
+        var inputStream = new FileInputStream(outfile);
+        var ipInputStream = new ZipInputStream(inputStream);
 
-        DeploymentBuilder deploymentBuilder = repositoryService.createDeployment();        //创建部署对象
+        var deploymentBuilder = repositoryService.createDeployment();        //创建部署对象
 
         deploymentBuilder.name(name);                        //部署名称
         deploymentBuilder.tenantId(tenantId); //部署的租户
         deploymentBuilder.addZipInputStream(ipInputStream);
 
-        Deployment deployment = deploymentBuilder.deploy();    //完成部署
+        var deployment = deploymentBuilder.deploy();    //完成部署
 
         ipInputStream.close();
         inputStream.close();
@@ -138,7 +132,7 @@ public class DeploymentController {
      */
     @PostMapping("/form")
     public Result deploymentForm(@RequestBody DeploymentProperty deploymentProperty) {
-        FormDeployment deployment = formRepositoryService.createDeployment()
+        var deployment = formRepositoryService.createDeployment()
                 .addClasspathResource(deploymentProperty.getFormName())
                 .name(deploymentProperty.getName())
                 .parentDeploymentId(deploymentProperty.getDeploymentId())
