@@ -8,14 +8,16 @@
 
 4. Mysql数据库
 
-5. JdbcTemplate操作数据
+5. NamedParameterJdbcTemplate操作数据
 
 6. EasyExcel操作excel文件
+
+7. Smart-Doc生成接口文档
 
 
 功能点
 
-实现全流程：部署、启动、完成；流程跟踪图绘制、节点跳转、会签、表单、模型管理等功能
+实现全流程：部署、启动、完成；流程跟踪图绘制、节点跳转、会签、基本表单、模型管理、动态表单等功能
 
 
 设计思路
