@@ -53,7 +53,7 @@ public class FormTemplatesServiceImpl implements FormTemplatesService {
 
         var param = new HashMap<String, Object>();
 
-        param.put("id", id);
+        param.put(Constant.ID, id);
 
         nameJdbcTemplate.update("delete from form_templates where id = :id", param);
 
@@ -81,7 +81,7 @@ public class FormTemplatesServiceImpl implements FormTemplatesService {
     public RestResult<FormTemplates> findTemplateById(String id) {
         var param = new HashMap<String, Object>();
 
-        param.put("id", id);
+        param.put(Constant.ID, id);
 
         var formTemplate = nameJdbcTemplate.query("select * from form_templates where id = :id", param, new BeanPropertyRowMapper<>(FormTemplates.class));
 

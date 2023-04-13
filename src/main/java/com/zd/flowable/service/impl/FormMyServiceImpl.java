@@ -52,7 +52,7 @@ public class FormMyServiceImpl implements FormMyService {
     public Result delFormMy(String id) {
         var param = new HashMap<String, Object>();
 
-        param.put("id", id);
+        param.put(Constant.ID, id);
 
         nameJdbcTemplate.update("delete from form_my where id = :id", param);
 
@@ -80,7 +80,7 @@ public class FormMyServiceImpl implements FormMyService {
     public RestResult<FormMy> findFormMyById(String id) {
         var param = new HashMap<String, Object>();
 
-        param.put("id", id);
+        param.put(Constant.ID, id);
 
         var formMy = nameJdbcTemplate.query("select * from form_my where id = :id", param, new BeanPropertyRowMapper<>(FormMy.class));
 

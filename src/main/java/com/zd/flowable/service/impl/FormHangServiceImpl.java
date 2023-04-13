@@ -61,7 +61,7 @@ public class FormHangServiceImpl implements FormHangService {
     public Result delFormHang(String id) {
         var param = new HashMap<String, Object>();
 
-        param.put("id", id);
+        param.put(Constant.ID, id);
 
         nameJdbcTemplate.update("delete from form_hang where id = :id", param);
 
@@ -72,7 +72,7 @@ public class FormHangServiceImpl implements FormHangService {
     public Result delHangByFormDataId(String formDataId) {
         var param = new HashMap<String, Object>();
 
-        param.put("id", formDataId);
+        param.put(Constant.ID, formDataId);
 
         nameJdbcTemplate.update("delete from form_hang where id = :id", param);
 
@@ -100,7 +100,7 @@ public class FormHangServiceImpl implements FormHangService {
     public RestResult<FormHang> findFormHangById(String id) {
         var param = new HashMap<String, Object>();
 
-        param.put("id", id);
+        param.put(Constant.ID, id);
 
         var formHang = nameJdbcTemplate.query("select * from form_hang where id = :id", param, new BeanPropertyRowMapper<>(FormHang.class));
 
