@@ -3,3 +3,11 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/hll_workflow_test?characterEncoding=utf8&autoReconnect=true&allowMultiQueries=true&nullCatalogMeansCurrent=true
     username: root
     password: root
+  elasticsearch:
+    uris: http://127.0.0.1:9200
+    connection-timeout: 3000
+    socket-timeout: 5000
+    username: elastic
+    password: 123456
+
+

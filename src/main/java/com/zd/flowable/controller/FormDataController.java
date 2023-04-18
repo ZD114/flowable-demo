@@ -1,19 +1,19 @@
 package com.zd.flowable.controller;
 
+import com.alibaba.fastjson.JSONArray;
 import com.zd.flowable.common.PageResult;
 import com.zd.flowable.common.RestResult;
 import com.zd.flowable.entity.FormData;
-import com.zd.flowable.model.FormDataProperty;
-import com.zd.flowable.model.FormDataSearchParam;
-import com.zd.flowable.model.Result;
+import com.zd.flowable.model.*;
 import com.zd.flowable.service.FormCommonService;
 import com.zd.flowable.service.FormDataService;
 import com.zd.flowable.service.FormHangService;
-import com.zd.flowable.utils.Constant;
-import com.zd.flowable.utils.DelFileUtil;
-import com.zd.flowable.utils.FileDownload;
-import com.zd.flowable.utils.PathUtil;
+import com.zd.flowable.utils.*;
 import org.apache.commons.lang3.StringUtils;
+import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.index.query.*;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
+import org.elasticsearch.search.sort.SortOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -24,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 表单数据操作
@@ -35,12 +36,16 @@ import java.util.HashMap;
 @RequestMapping("/form-data")
 public class FormDataController {
 
+    private static final String INDEX_NAME = "form_data_index";
+
     @Autowired
     private FormDataService formDataService;
     @Autowired
     private FormHangService formHangService;
     @Autowired
     private FormCommonService formCommonService;
+    @Autowired
+    private RestHighLevelClient restHighLevelClient;
 
     private static final Logger log = LoggerFactory.getLogger(FormDataController.class);
 
@@ -220,4 +225,74 @@ public class FormDataController {
             e.printStackTrace();
         }
     }
+
+    /**
+     * 增加es
+     *
+     * @return
+     */
+    @GetMapping("/add-es")
+    public Result addDataToEs() {
+
+        if (HighLevelClientUtils.indexExists(restHighLevelClient, INDEX_NAME)) {
+            log.info("createIndex:{} 已存在", INDEX_NAME);
+        } else {
+            boolean index = HighLevelClientUtils.createIndex(restHighLevelClient, INDEX_NAME);
+
+            if (!index) {
+                log.info("createIndex:{} 失败", INDEX_NAME);
+                return Result.error(ResultCodeEnum.CREATE_INDEX_ERROR);
+            }
+        }
+
+        var list = formDataService.queryAll();
+
+        if (list.size() > 0) {
+            HighLevelClientUtils.updateDocs(restHighLevelClient, INDEX_NAME, JSONArray.toJSONString(list), Constant.ID);
+            return Result.ok();
+        }
+
+        return Result.error(ResultCodeEnum.ERROR);
+    }
+
+    /**
+     * 查询es
+     *
+     * @param searchParam
+     * @return
+     */
+    @PostMapping("/query-es")
+    public Result queryEsData(@RequestBody FormDataSearchParam searchParam) {
+        var pageNo = searchParam.getPageIndex();
+        var pageSize = searchParam.getPageSize();
+        var startNum = (pageNo - 1) * pageSize;
+        var title = searchParam.getTitle();
+
+        SearchSourceBuilder searchBuilder = new SearchSourceBuilder();
+        BoolQueryBuilder boolQuery = QueryBuilders.boolQuery();
+
+        // 全局模糊查询
+        if (StringUtils.isNotBlank(title)) {
+            WildcardQueryBuilder queryBuilder = QueryBuilders.wildcardQuery(FormDataEs.TITLE, "*"+title+"*");
+            boolQuery.must(queryBuilder);
+        } else {
+            MatchAllQueryBuilder matchAllQueryBuilder = QueryBuilders.matchAllQuery();
+            boolQuery.must(matchAllQueryBuilder);
+        }
+
+        searchBuilder.query(boolQuery);
+        searchBuilder.from(startNum);
+        searchBuilder.size(pageSize);
+        searchBuilder.sort(FormDataEs.ID, SortOrder.DESC);
+
+        var response = HighLevelClientUtils.search(restHighLevelClient, INDEX_NAME, searchBuilder);
+
+        if (response == null) {
+            return Result.ok();
+        }
+
+        return Result.ok().data(Constant.RESULT, response.getHits().getHits());
+    }
+
+
 }

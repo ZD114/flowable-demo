@@ -32,4 +32,6 @@ public interface FormDataService {
     Result delBatchFormData(String ids);
 
     Result updateByFormMyId(FormMyProperty formMyProperty);
+
+    List<FormData> queryAll();
 }
