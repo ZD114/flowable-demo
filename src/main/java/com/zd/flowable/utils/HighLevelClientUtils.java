@@ -430,21 +430,24 @@ public class HighLevelClientUtils {
      * @param searchSourceBuilder 条件
      * @return
      */
-    public static SearchResponse search(RestHighLevelClient restHighLevelClient, String indexName, SearchSourceBuilder searchSourceBuilder) {
+    public static List<Map<String,Object>> search(RestHighLevelClient restHighLevelClient, String indexName, SearchSourceBuilder searchSourceBuilder) {
         try {
-            List<String> voList = new ArrayList<>();
+            List<Map<String,Object>> voList = new ArrayList<>();
             SearchRequest searchRequest = new SearchRequest();
             searchRequest.indices(indexName);
             searchRequest.source(searchSourceBuilder);
             SearchResponse searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+
             if (RestStatus.OK.equals(searchResponse.status()) && searchResponse.getHits().getTotalHits().value > 0) {
                 SearchHits hits = searchResponse.getHits();
                 for (SearchHit hit : hits) {
                     // 将 JSON 转换成对象
-                    voList.add(hit.getSourceAsString());
+                    voList.add(hit.getSourceAsMap());
                 }
             }
-            return searchResponse;
+
+            log.info("返回对象为：{}", voList);
+            return voList;
         } catch (Exception e) {
             log.error("[ElasticSearch]search", e);
         }

@@ -273,7 +273,7 @@ public class FormDataController {
 
         // 全局模糊查询
         if (StringUtils.isNotBlank(title)) {
-            WildcardQueryBuilder queryBuilder = QueryBuilders.wildcardQuery(FormDataEs.TITLE, "*"+title+"*");
+            WildcardQueryBuilder queryBuilder = QueryBuilders.wildcardQuery(FormDataEs.TITLE, "*" + title + "*");
             boolQuery.must(queryBuilder);
         } else {
             MatchAllQueryBuilder matchAllQueryBuilder = QueryBuilders.matchAllQuery();
@@ -285,13 +285,7 @@ public class FormDataController {
         searchBuilder.size(pageSize);
         searchBuilder.sort(FormDataEs.ID, SortOrder.DESC);
 
-        var response = HighLevelClientUtils.search(restHighLevelClient, INDEX_NAME, searchBuilder);
-
-        if (response == null) {
-            return Result.ok();
-        }
-
-        return Result.ok().data(Constant.RESULT, response.getHits().getHits());
+        return Result.ok().data(Constant.RESULT, HighLevelClientUtils.search(restHighLevelClient, INDEX_NAME, searchBuilder));
     }
 
 
