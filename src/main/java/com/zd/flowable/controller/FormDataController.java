@@ -23,8 +23,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 表单数据操作
@@ -232,7 +232,7 @@ public class FormDataController {
      * @return
      */
     @GetMapping("/add-es")
-    public Result addDataToEs() {
+    public Result addDataToEs() throws IOException {
 
         if (HighLevelClientUtils.indexExists(restHighLevelClient, INDEX_NAME)) {
             log.info("createIndex:{} 已存在", INDEX_NAME);
@@ -249,9 +249,11 @@ public class FormDataController {
 
         if (list.size() > 0) {
             HighLevelClientUtils.updateDocs(restHighLevelClient, INDEX_NAME, JSONArray.toJSONString(list), Constant.ID);
+            restHighLevelClient.close();
             return Result.ok();
         }
 
+        restHighLevelClient.close();
         return Result.error(ResultCodeEnum.ERROR);
     }
 
@@ -262,7 +264,7 @@ public class FormDataController {
      * @return
      */
     @PostMapping("/query-es")
-    public Result queryEsData(@RequestBody FormDataSearchParam searchParam) {
+    public Result queryEsData(@RequestBody FormDataSearchParam searchParam) throws IOException {
         var pageNo = searchParam.getPageIndex();
         var pageSize = searchParam.getPageSize();
         var startNum = (pageNo - 1) * pageSize;
@@ -285,7 +287,10 @@ public class FormDataController {
         searchBuilder.size(pageSize);
         searchBuilder.sort(FormDataEs.ID, SortOrder.DESC);
 
-        return Result.ok().data(Constant.RESULT, HighLevelClientUtils.search(restHighLevelClient, INDEX_NAME, searchBuilder));
+        var list = HighLevelClientUtils.search(restHighLevelClient, INDEX_NAME, searchBuilder);
+        restHighLevelClient.close();
+
+        return Result.ok().data(Constant.RESULT, list);
     }
 
 
