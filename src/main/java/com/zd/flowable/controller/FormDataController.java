@@ -249,11 +249,9 @@ public class FormDataController {
 
         if (list.size() > 0) {
             HighLevelClientUtils.updateDocs(restHighLevelClient, INDEX_NAME, JSONArray.toJSONString(list), Constant.ID);
-            restHighLevelClient.close();
             return Result.ok();
         }
 
-        restHighLevelClient.close();
         return Result.error(ResultCodeEnum.ERROR);
     }
 
@@ -287,10 +285,7 @@ public class FormDataController {
         searchBuilder.size(pageSize);
         searchBuilder.sort(FormDataEs.ID, SortOrder.DESC);
 
-        var list = HighLevelClientUtils.search(restHighLevelClient, INDEX_NAME, searchBuilder);
-        restHighLevelClient.close();
-
-        return Result.ok().data(Constant.RESULT, list);
+        return Result.ok().data(Constant.RESULT, HighLevelClientUtils.search(restHighLevelClient, INDEX_NAME, searchBuilder));
     }
 
 
