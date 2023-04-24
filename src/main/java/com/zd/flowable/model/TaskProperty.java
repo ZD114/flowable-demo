@@ -13,7 +13,7 @@ public class TaskProperty {
     private Map<String, Object> mapVariables;
 
     /**
-     * 务编号
+     * 任务编号
      */
     private String taskId;
 

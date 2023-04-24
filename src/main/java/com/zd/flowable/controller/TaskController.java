@@ -1,8 +1,13 @@
 package com.zd.flowable.controller;
 
+import com.zd.flowable.common.PageResult;
+import com.zd.flowable.entity.TaskDetail;
 import com.zd.flowable.model.Result;
 import com.zd.flowable.model.ResultCodeEnum;
 import com.zd.flowable.model.TaskProperty;
+import com.zd.flowable.model.TaskSearchParam;
+import com.zd.flowable.service.FormCommonService;
+import com.zd.flowable.service.TaskSpecialService;
 import org.apache.commons.lang3.StringUtils;
 import org.flowable.engine.TaskService;
 import org.flowable.form.model.FormField;
@@ -14,6 +19,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -32,6 +38,12 @@ public class TaskController {
 
     @Autowired
     private TaskService taskService;
+
+    @Autowired
+    private FormCommonService formCommonService;
+
+    @Autowired
+    private TaskSpecialService taskSpecialService;
 
     /**
      * 根据任务编号完成任务
@@ -80,9 +92,8 @@ public class TaskController {
     /**
      * 完成表单
      *
-     * @param taskProperty
-     * ACT_RU_TASK ：ID_
-     * ACT_FO_FORM_DEFINITION ：ID_
+     * @param taskProperty ACT_RU_TASK ：ID_
+     *                     ACT_FO_FORM_DEFINITION ：ID_
      * @return
      */
     @PostMapping("/form")
@@ -191,5 +202,67 @@ public class TaskController {
         return Result.ok();
     }
 
+    /**
+     * 代办任务列表
+     *
+     * @param searchParam
+     * @return
+     */
+    @PostMapping("/list")
+    public PageResult<TaskDetail> searchPage(@RequestBody TaskSearchParam searchParam) {
+        var pageResult = new PageResult<TaskDetail>();
+
+        var params = new HashMap<String, Object>();
+
+        var sql = new StringBuilder("SELECT * FROM ACT_RU_TASK WHERE 1=1 ");
+
+        if (StringUtils.isNotBlank(searchParam.getProcessInstanceId())) {
+            sql.append(" AND PROC_DEF_ID_ like :processInstanceId ");
+            params.put("processInstanceId", searchParam.getProcessInstanceId());
+
+        }
+
+        if (StringUtils.isNotBlank(searchParam.getUserName())) {
+            sql.append(" AND ASSIGNEE_ like :userName ");
+            params.put("userName", "%" + searchParam.getUserName() + "%");
+
+        }
+
+        if (StringUtils.isNotBlank(searchParam.getLastStart())) {
+            sql.append(" and CREATE_TIME_ >= :createTime");
+            params.put("createTime", searchParam.getLastStart());
+
+        }
+
+        if (StringUtils.isNotBlank(searchParam.getLastEnd())) {
+            sql.append(" and CREATE_TIME_ <= :createTime");
+            params.put("createTime", searchParam.getLastEnd());
+
+        }
+
+        var sqlCount = new StringBuilder("SELECT COUNT(1) FROM( " + sql + " GROUP BY ID_ ) eq");
+
+        var totalCount = formCommonService.countForm(sqlCount.toString(), params);
+
+        log.info("总数量：{}", totalCount);
+
+        if (totalCount > 0) {
+            var start = searchParam.getPageIndex() == 0 ? 0
+                    : (searchParam.getPageIndex() - 1) * searchParam.getPageSize();
+
+            sql.append(" GROUP BY ID_ ORDER BY ID_ DESC LIMIT :start,:pageSize ");
+            params.put("start", start);
+            params.put("pageSize", searchParam.getPageSize());
+
+            var resources = taskSpecialService.searchPageList(sql.toString(), params);
+
+            pageResult.setData(resources);
+        }
+
+        pageResult.setTotal(totalCount);
+        pageResult.setTotalPages((long) Math.ceil(totalCount / (double) searchParam.getPageSize()));
+
+        return pageResult;
+    }
 
 }
