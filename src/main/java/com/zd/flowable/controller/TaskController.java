@@ -217,7 +217,7 @@ public class TaskController {
         var sql = new StringBuilder("SELECT * FROM ACT_RU_TASK WHERE 1=1 ");
 
         if (StringUtils.isNotBlank(searchParam.getProcessInstanceId())) {
-            sql.append(" AND PROC_DEF_ID_ like :processInstanceId ");
+            sql.append(" AND PROC_DEF_ID_ = :processInstanceId ");
             params.put("processInstanceId", searchParam.getProcessInstanceId());
 
         }
